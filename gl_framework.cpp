@@ -9,6 +9,10 @@ extern csX75::HNode*  lowerbox,*curr_node,*upperbox;
 extern csX75::HNode*  hipl,* hipr,* head,* neck,* torso1,* torso2,* torso3,* thighl,* thighr,* kneel,* kneer,* legl,* legr,* footl,* footr,* shoulderl,* shoulderr,* uarml,* uarmr,* elbowl,* elbowr,* larml,* larmr,* handl,* handr, * hat;
 extern csX75::HNode*  doghead,*dogneck,*dogtrunk,*dogtail,*dogarm1,*dogarm2,*dogarm3,*dogarm4;
 extern csX75::HNode*  umbrellafolded,* umbrellaopen;
+extern float wsize;
+extern float g_xtrans,g_ytrans,g_ztrans;
+extern GLfloat c_xpos, c_ypos, c_zpos;
+
 namespace csX75
 {
   //! Initialize GL State
@@ -66,12 +70,12 @@ void closebox(void){
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
 
-    else if (key == GLFW_KEY_3 && action == GLFW_PRESS)   // to control the humanoid model
-      curr_node = torso3; 
-    else if (key == GLFW_KEY_4 && action == GLFW_PRESS)   // to control the animal model
-      curr_node = dogtrunk; 
-    else if (key == GLFW_KEY_5 && action == GLFW_PRESS)   // to control the animal model
-      umbrellabutton();
+    // else if (key == GLFW_KEY_3 && action == GLFW_PRESS)   // to control the humanoid model
+    //   curr_node = torso3; 
+    // else if (key == GLFW_KEY_4 && action == GLFW_PRESS)   // to control the animal model
+    //   curr_node = dogtrunk; 
+    // else if (key == GLFW_KEY_5 && action == GLFW_PRESS)   // to control the animal model
+    //   umbrellabutton();
 
     else if (key == GLFW_KEY_H && action == GLFW_PRESS)
       curr_node = torso2;  
@@ -159,10 +163,10 @@ void closebox(void){
       else curr_node->inc_rz();
     }
 
-    else if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-      openbox();
-    else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
-      closebox();
+    // else if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    //   openbox();
+    // else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    //   closebox();
     else if (key == GLFW_KEY_P && action == GLFW_PRESS)
       enable_perspective = !enable_perspective;   
     else if (key == GLFW_KEY_A  && action == GLFW_PRESS)
@@ -177,6 +181,32 @@ void closebox(void){
       c_zrot -= 5.0;
     else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
       c_zrot += 5.0;   
+    else if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
+      wsize = wsize - 2;
+    else if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS)
+      wsize = wsize + 2;
+    else if (key == GLFW_KEY_KP_1 && action == GLFW_PRESS)
+      c_xpos += 2;      
+    else if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS)
+      c_xpos -= 2;    
+    else if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS)
+      c_ypos+= 2;    
+    else if (key == GLFW_KEY_KP_6 && action == GLFW_PRESS)
+      c_ypos-= 2;    
+    else if (key == GLFW_KEY_KP_7 && action == GLFW_PRESS)
+      c_zpos+= 2;    
+    else if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS)
+      c_zpos-= 2;    
+    else if (key == GLFW_KEY_KP_0 && action == GLFW_PRESS)
+      c_xrot+= 5;    
+    else if (key == GLFW_KEY_KP_2 && action == GLFW_PRESS)
+      c_xrot-= 5;    
+    else if (key == GLFW_KEY_KP_5 && action == GLFW_PRESS)
+      c_yrot+= 5;    
+    else if (key == GLFW_KEY_KP_8 && action == GLFW_PRESS)
+      c_yrot-= 5;    
+      
+            
   }
 };  
   

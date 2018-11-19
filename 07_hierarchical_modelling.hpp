@@ -35,6 +35,8 @@ GLfloat xrot=0.0,yrot=0.0,zrot=0.0;*/
 GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 2.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
+float g_xtrans = 0.0, g_ytrans = 0.0, g_ztrans = -1600.0;
+float trans_factor = 0.02;
 
 //Running variable to toggle culling on/off
 bool enable_culling=true;
@@ -78,6 +80,8 @@ csX75::HNode* handl;
 csX75::HNode* handr;
 csX75::HNode* lowerbox;
 csX75::HNode* upperbox;
+
+csX75::HNode* roombox;
 
 // --------props--------
 

@@ -7,6 +7,7 @@ GLuint shaderProgram;
 glm::mat4 rotation_matrix;
 glm::mat4 projection_matrix;
 glm::mat4 c_rotation_matrix;
+glm::mat4 c_translation_matrix;
 glm::mat4 lookat_matrix;
 
 glm::mat4 model_matrix;
@@ -23,10 +24,19 @@ GLuint uModelViewMatrix;
 const int num_vertices = 36;
 const int num_vertices_box = 84;
 float length=24,width=24,height=6,thickness=2;
+float roomlength = 50, roomheight = 50, roomdepth = 50;
+float wallthickness = 5;
+float doorlength = 10, doorheight = 20, doorthickness = 5;
+float windowlength = 10, windowheight = 20, windowthickness = 5;
 int tri_idx=0;
+int room_idx=0;
+float wsize = 50.0;
 glm::vec4 v_positions_box[num_vertices_box];
 glm::vec4 v_colors_box[num_vertices_box];
-
+glm::vec4 roomcolor = glm::vec4(0.2, 0.4, 0.5, 1.0);
+glm::vec4 roomcolorinner = glm::vec4(0.9, 0.4, 0.6, 1.0);
+glm::vec4 doorcolor = glm::vec4(0.5, 0.2, 0.4, 1.0);
+glm::vec4 windowcolor = glm::vec4(0.5, 0.3, 0.2, 1.0);
 
 glm::vec4 hiplpos[390960];
 glm::vec4 hiplcol[390960];
@@ -143,12 +153,106 @@ glm::vec4 dogarm3col[390960];
 glm::vec4 dogarm4pos[390960];   // frustom
 glm::vec4 dogarm4col[390960];
 
+glm::vec4 roompos[174];   // room
+glm::vec4 roomcol[174];
+
 
 
 //------------------------declarations end-----------------------
 
 
 //---------------------------- functions to build shapes -------------------------------------
+
+glm::vec4 positionsRoom[32] = {
+
+  glm::vec4(0.0, 0.0,0.0, 1.0),
+  glm::vec4(roomlength, 0.0,0.0, 1.0),
+  glm::vec4(0.0, 0.0, roomdepth, 1.0),
+  glm::vec4(roomlength, 0.0, roomdepth, 1.0),
+
+  glm::vec4(0.0, roomheight,0.0, 1.0),
+  glm::vec4(roomlength, roomheight,0.0, 1.0),
+  glm::vec4(0.0, roomheight, roomdepth, 1.0),
+  glm::vec4(roomlength, roomheight, roomdepth, 1.0),
+
+  glm::vec4(0.0+wallthickness, 0.0,0.0+wallthickness, 1.0),
+  glm::vec4(roomlength-wallthickness, 0.0,0.0+wallthickness, 1.0),
+  glm::vec4(0.0+wallthickness, 0.0, roomdepth-wallthickness, 1.0),
+  glm::vec4(roomlength-wallthickness, 0.0, roomdepth-wallthickness, 1.0),
+
+  glm::vec4(0.0+wallthickness, roomheight-wallthickness,0.0+wallthickness, 1.0),
+  glm::vec4(roomlength-wallthickness, roomheight-wallthickness,0.0+wallthickness, 1.0),
+  glm::vec4(0.0+wallthickness, roomheight-wallthickness, roomdepth-wallthickness, 1.0),
+  glm::vec4(roomlength-wallthickness, roomheight-wallthickness, roomdepth-wallthickness, 1.0),
+
+  glm::vec4((roomlength-doorlength)/2.0, 0.0,0.0, 1.0),
+  glm::vec4((roomlength+doorlength)/2.0, 0.0,0.0, 1.0),
+  glm::vec4((roomlength-doorlength)/2.0, doorheight,0.0, 1.0),
+  glm::vec4((roomlength+doorlength)/2.0, doorheight,0.0, 1.0),
+
+  glm::vec4((roomlength-doorlength)/2.0, 0.0,doorthickness, 1.0),
+  glm::vec4((roomlength+doorlength)/2.0, 0.0,doorthickness, 1.0),
+  glm::vec4((roomlength-doorlength)/2.0, doorheight,doorthickness, 1.0),
+  glm::vec4((roomlength+doorlength)/2.0, doorheight,doorthickness, 1.0),
+
+  glm::vec4(roomlength, (roomheight-windowheight)/2.0, (roomdepth-windowlength)/2.0, 1.0),
+  glm::vec4(roomlength, (roomheight-windowheight)/2.0, (roomdepth+windowlength)/2.0, 1.0),
+  glm::vec4(roomlength, (roomheight+windowheight)/2.0, (roomdepth-windowlength)/2.0, 1.0),
+  glm::vec4(roomlength, (roomheight+windowheight)/2.0, (roomdepth+windowlength)/2.0, 1.0),
+
+  glm::vec4(roomlength-windowthickness, (roomheight-windowheight)/2.0, (roomdepth-windowlength)/2.0, 1.0),
+  glm::vec4(roomlength-windowthickness, (roomheight-windowheight)/2.0, (roomdepth+windowlength)/2.0, 1.0),
+  glm::vec4(roomlength-windowthickness, (roomheight+windowheight)/2.0, (roomdepth-windowlength)/2.0, 1.0),
+  glm::vec4(roomlength-windowthickness, (roomheight+windowheight)/2.0, (roomdepth+windowlength)/2.0, 1.0),
+
+};
+
+glm::vec4 colorsRoom[32] = {
+
+  roomcolor,
+  roomcolor,
+  roomcolor,
+  roomcolor,
+
+  roomcolor,
+  roomcolor,
+  roomcolor,
+  roomcolor,
+
+  roomcolorinner,
+  roomcolorinner,
+  roomcolorinner,
+  roomcolorinner,
+
+
+  roomcolorinner,
+  roomcolorinner,
+  roomcolorinner,
+  roomcolorinner,
+
+  doorcolor,
+  doorcolor,
+  doorcolor,
+  doorcolor,
+
+  doorcolor,
+  doorcolor,
+  doorcolor,
+  doorcolor,
+
+  windowcolor,
+  windowcolor,
+  windowcolor,
+  windowcolor,
+
+  windowcolor,
+  windowcolor,
+  windowcolor,
+  windowcolor,
+
+};
+
+
 
 
 glm::vec4 positionsBox[16] = {
@@ -172,8 +276,6 @@ glm::vec4 positionsBox[16] = {
   glm::vec4(length-thickness, 0.0+thickness,0.0, 1.0),
   glm::vec4(length-thickness, width-thickness,0.0, 1.0),
   glm::vec4(0.0+thickness, width-thickness,0.0, 1.0),
-
-
 };
 
 
@@ -229,7 +331,54 @@ void colorbox(void)
     quad_box( 7, 15, 12, 4 );
 }
 
+void room_quad_box(int a, int b, int c, int d)
+{
+  roomcol[room_idx] = colorsRoom[a]; roompos[room_idx] = positionsRoom[a]; room_idx++;
+  roomcol[room_idx] = colorsRoom[b]; roompos[room_idx] = positionsRoom[b]; room_idx++;
+  roomcol[room_idx] = colorsRoom[c]; roompos[room_idx] = positionsRoom[c]; room_idx++;
+  roomcol[room_idx] = colorsRoom[b]; roompos[room_idx] = positionsRoom[b]; room_idx++;
+  roomcol[room_idx] = colorsRoom[c]; roompos[room_idx] = positionsRoom[c]; room_idx++;
+  roomcol[room_idx] = colorsRoom[d]; roompos[room_idx] = positionsRoom[d]; room_idx++;
+ }
 
+void room(void)
+{
+  room_quad_box(0,1,2,3);  
+  room_quad_box(4,5,6,7);  
+  room_quad_box(12,13,14,15);  
+  room_quad_box(2,3,6,7);  
+  room_quad_box(10,11,14,15);  
+  room_quad_box(0,2,4,6);
+  room_quad_box(8,10,12,14);
+
+  room_quad_box(0,16,4,18);
+  room_quad_box(4,18,19,5);
+  room_quad_box(19,5,17,1);
+
+  room_quad_box(8,20,12,22);  
+  room_quad_box(12,22,23,13);
+  room_quad_box(23,13,21,9);
+
+  room_quad_box(16,20,18,22);
+  room_quad_box(18,22,19,23);
+  room_quad_box(19,23,17,21);
+
+  room_quad_box(1,24,5,26);
+  room_quad_box(5,26,7,27);
+  room_quad_box(7,27,3,25);
+  room_quad_box(3,25,1,24);
+
+  room_quad_box(9,13,30,28);
+  room_quad_box(30,31,13,15);
+  room_quad_box(15,31,29,11);
+  room_quad_box(11,29,9,28);  
+
+  room_quad_box(24,28,26,30);
+  room_quad_box(26,30,27,31);
+  room_quad_box(27,31,25,29);
+  room_quad_box(25,29,24,28);  
+
+}
 int get_cylinder_size(float height,float radius){
   int lats = 180;
   int longts = 360;
@@ -496,6 +645,10 @@ void initBuffersGL(void)
 
   // Creating the hierarchy:
   colorbox();
+  room();
+
+  roombox = new csX75::HNode(NULL,174,roompos,roomcol,sizeof(roompos),sizeof(roomcol));
+
 
   lowerbox = new csX75::HNode(NULL,num_vertices_box,v_positions_box,v_colors_box,sizeof(v_positions_box),sizeof(v_colors_box));
   lowerbox->change_parameters(-length/2,0.0,0.0,75.0,180.0,0.0);
@@ -744,7 +897,7 @@ void initBuffersGL(void)
   dogtail->change_parameters(0,1.5,13.5,-40,0,0);
 
   //-----------------------------------------------------------------------------------------------------------
-  root_node = curr_node = lowerbox;
+  root_node = curr_node = roombox;
 
 }
 
@@ -762,23 +915,30 @@ void renderGL(void)
   glm::vec4 c_pos = glm::vec4(c_xpos,c_ypos,c_zpos, 1.0)*c_rotation_matrix;
   glm::vec4 c_up = glm::vec4(c_up_x,c_up_y,c_up_z, 1.0)*c_rotation_matrix;
   //Creating the lookat matrix
-  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(0.0),glm::vec3(c_up));
+  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(roomlength/2.0,roomheight/2.0,roomdepth/2.0),glm::vec3(c_up));
 
   //creating the projection matrix
   if(enable_perspective)
-    projection_matrix = glm::frustum(-50.0, 50.0, -50.0, 60.0, 50.0, -50.0);
+    projection_matrix = glm::frustum(-1.0, 1.0, -1.0, 1.0, 1.0, 70000.0);
     //projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.1,5.0);
   else
-    projection_matrix = glm::ortho(-50.0, 50.0, -50.0, 60.0, 60.0, -60.0);
+    projection_matrix = glm::ortho(-wsize*4, wsize*4, -wsize*4, 5*wsize, 4*wsize, -wsize*4);
 
+  glm::mat4 id = glm::mat4(1.0f);
+  glm::vec3 translation_amt(g_xtrans*trans_factor,g_ytrans*trans_factor,g_ztrans*trans_factor);
+  c_translation_matrix = glm::translate(id, translation_amt);
+
+  // view_matrix = projection_matrix*lookat_matrix*c_rotation_matrix*c_translation_matrix;
   view_matrix = projection_matrix*lookat_matrix;
 
   matrixStack.push_back(view_matrix);
 
 
-  lowerbox->render_tree();
-  torso3->render_tree();
-  dogtrunk->render_tree();
+  // lowerbox->render_tree();
+  // torso3->render_tree();
+  // dogtrunk->render_tree();
+
+  roombox->render_tree();
 
 }
 
