@@ -11,24 +11,24 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-
+#include "hierarchy_node.hpp"
 #include "gl_framework.hpp"
 
 
 namespace csX75	 { 
 
 	// A simple class that represents a node in the hierarchy tree
-	class HNode {
+	class HNodeTexture {
 		//glm::vec4 * vertices;
 		//glm::vec4 * colors;
 		GLfloat tx,ty,tz,rx,ry,rz;
-		bool toTex;
+
 		std::size_t vertex_buffer_size;
 		std::size_t color_buffer_size;
 		std::size_t texture_buffer_size;
 
 		GLuint num_vertices;
-		GLuint vao,vbo,tex;
+		GLuint vao,vbo;
 
 		glm::mat4 rotation;
 		glm::mat4 translation;
@@ -39,8 +39,7 @@ namespace csX75	 {
 		void update_matrices();
 
 	  public:
-		// HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, std::size_t, std::size_t);
-		HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, glm::vec2*, std::size_t, std::size_t, std::size_t, bool, GLuint);
+		HNodeTexture (HNode*, GLuint, glm::vec4*,  glm::vec4*, glm::vec2*, std::size_t, std::size_t, std::size_t);
 
 		//HNode (HNode* , glm::vec4*,  glm::vec4*,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 

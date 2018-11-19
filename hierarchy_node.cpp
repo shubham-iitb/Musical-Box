@@ -2,19 +2,72 @@
 
 #include <iostream>
 
-extern GLuint vPosition,vColor,uModelViewMatrix;
+extern GLuint vPosition,vColor,vTexture,uModelViewMatrix;
 extern std::vector<glm::mat4> matrixStack;
 
 namespace csX75
 {
 
-	HNode::HNode(HNode* a_parent, GLuint num_v, glm::vec4* a_vertices, glm::vec4* a_colours, std::size_t v_size, std::size_t c_size){
+	// HNode::HNode(HNode* a_parent, GLuint num_v, glm::vec4* a_vertices, glm::vec4* a_colours, std::size_t v_size, std::size_t c_size){
+
+	// 	num_vertices = num_v;
+	// 	vertex_buffer_size = v_size;
+	// 	color_buffer_size = c_size;
+	// 	// initialize vao and vbo of the object;
+
+
+	// 	//Ask GL for a Vertex Attribute Objects (vao)
+	// 	glGenVertexArrays (1, &vao);
+	// 	//Ask GL for aVertex Buffer Object (vbo)
+	// 	glGenBuffers (1, &vbo);
+
+	// 	//bind them
+	// 	glBindVertexArray (vao);
+	// 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
+
+		
+	// 	glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, NULL, GL_STATIC_DRAW);
+	// 	glBufferSubData( GL_ARRAY_BUFFER, 0, vertex_buffer_size, a_vertices );
+	// 	glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size, color_buffer_size, a_colours );
+
+	// 	//setup the vertex array as per the shader
+	// 	glEnableVertexAttribArray( vPosition );
+	// 	glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
+
+	// 	glEnableVertexAttribArray( vColor );
+	// 	glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size));
+
+
+	// 	// set parent
+
+	// 	if(a_parent == NULL){
+	// 		parent = NULL;
+	// 	}
+	// 	else{
+	// 		parent = a_parent;
+	// 		parent->add_child(this);
+	// 	}
+
+	// 	//initial parameters are set to 0;
+
+	// 	tx=ty=tz=rx=ry=rz=0;
+
+	// 	update_matrices();
+	// }
+
+
+	HNode::HNode(HNode* a_parent, GLuint num_v, glm::vec4* a_vertices, glm::vec4* a_colours, glm::vec2* a_tex_coords, std::size_t v_size, std::size_t c_size, std::size_t t_size, bool totex, GLuint texture){
 
 		num_vertices = num_v;
 		vertex_buffer_size = v_size;
 		color_buffer_size = c_size;
+		toTex = totex;
+		if(toTex) {
+			texture_buffer_size = t_size;
+			tex = texture;
+		}
 		// initialize vao and vbo of the object;
-
+		std::cout<<"entered Hnode\n";
 
 		//Ask GL for a Vertex Attribute Objects (vao)
 		glGenVertexArrays (1, &vao);
@@ -24,11 +77,13 @@ namespace csX75
 		//bind them
 		glBindVertexArray (vao);
 		glBindBuffer (GL_ARRAY_BUFFER, vbo);
-
 		
-		glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, NULL, GL_STATIC_DRAW);
+		
+		if(toTex) glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size + texture_buffer_size, NULL, GL_STATIC_DRAW);
+		else glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, NULL, GL_STATIC_DRAW);
 		glBufferSubData( GL_ARRAY_BUFFER, 0, vertex_buffer_size, a_vertices );
 		glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size, color_buffer_size, a_colours );
+		if(toTex) glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, texture_buffer_size, a_tex_coords );
 
 		//setup the vertex array as per the shader
 		glEnableVertexAttribArray( vPosition );
@@ -36,6 +91,11 @@ namespace csX75
 
 		glEnableVertexAttribArray( vColor );
 		glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size));
+
+		if(toTex){
+			glEnableVertexAttribArray( vTexture );
+			glVertexAttribPointer( vTexture, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size+color_buffer_size));
+		}
 
 
 		// set parent
@@ -54,6 +114,7 @@ namespace csX75
 
 		update_matrices();
 	}
+
 
 	void HNode::update_matrices(){
 
@@ -86,9 +147,14 @@ namespace csX75
 
 		//matrixStack multiply
 		glm::mat4* ms_mult = multiply_stack(matrixStack);
-
+		
 		glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 		glBindVertexArray (vao);
+		if(toTex) {
+			glBindTexture(GL_TEXTURE_2D, tex);
+			std::cout<<tex;
+
+		}
 		glDrawArrays(GL_TRIANGLES, 0, num_vertices);
 
 		// for memory 
