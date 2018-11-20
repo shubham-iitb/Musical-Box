@@ -342,11 +342,11 @@ void colorbox(void)
 
 void room_quad_box(int a, int b, int c, int d)
 {
-  roomcol[room_idx] = colorsRoom[a]; roompos[room_idx] = positionsRoom[a]; tex_coords[room_idx] = t_coords[0]; room_idx++;
-  roomcol[room_idx] = colorsRoom[b]; roompos[room_idx] = positionsRoom[b]; tex_coords[room_idx] = t_coords[1]; room_idx++;
-  roomcol[room_idx] = colorsRoom[c]; roompos[room_idx] = positionsRoom[c]; tex_coords[room_idx] = t_coords[3]; room_idx++;
-  roomcol[room_idx] = colorsRoom[b]; roompos[room_idx] = positionsRoom[b]; tex_coords[room_idx] = t_coords[1]; room_idx++;
-  roomcol[room_idx] = colorsRoom[c]; roompos[room_idx] = positionsRoom[c]; tex_coords[room_idx] = t_coords[3]; room_idx++;
+  roomcol[room_idx] = colorsRoom[a]; roompos[room_idx] = positionsRoom[a]; tex_coords[room_idx] = t_coords[1]; room_idx++;
+  roomcol[room_idx] = colorsRoom[b]; roompos[room_idx] = positionsRoom[b]; tex_coords[room_idx] = t_coords[3]; room_idx++;
+  roomcol[room_idx] = colorsRoom[c]; roompos[room_idx] = positionsRoom[c]; tex_coords[room_idx] = t_coords[0]; room_idx++;
+  roomcol[room_idx] = colorsRoom[b]; roompos[room_idx] = positionsRoom[b]; tex_coords[room_idx] = t_coords[3]; room_idx++;
+  roomcol[room_idx] = colorsRoom[c]; roompos[room_idx] = positionsRoom[c]; tex_coords[room_idx] = t_coords[0]; room_idx++;
   roomcol[room_idx] = colorsRoom[d]; roompos[room_idx] = positionsRoom[d]; tex_coords[room_idx] = t_coords[2]; room_idx++;
  }
 
@@ -650,9 +650,9 @@ void initBuffersGL(void)
   // getting the attributes from the shader program
   vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
-  GLuint texCoord = glGetAttribLocation( shaderProgram, "texCoord" ); 
+  vTexture = glGetAttribLocation( shaderProgram, "vTexture" ); 
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
-  GLuint tex=LoadTexture("images/all1.bmp",256,256);
+  GLuint tex=LoadTexture("./images/stones.bmp",256,256);
   // GLuint tex=LoadTexture("images/stones.bmp",512,512);
 	// glBindTexture(GL_TEXTURE_2D, tex);
 

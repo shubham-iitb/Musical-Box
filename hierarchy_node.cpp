@@ -62,6 +62,7 @@ namespace csX75
 		vertex_buffer_size = v_size;
 		color_buffer_size = c_size;
 		toTex = totex;
+
 		if(toTex) {
 			texture_buffer_size = t_size;
 			tex = texture;
@@ -149,12 +150,13 @@ namespace csX75
 		glm::mat4* ms_mult = multiply_stack(matrixStack);
 		
 		glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
+		glEnable(GL_TEXTURE_2D);
 		glBindVertexArray (vao);
-		if(toTex) {
+//		if(toTex) {
 			glBindTexture(GL_TEXTURE_2D, tex);
-			std::cout<<tex;
+			// std::cout<<tex;
 
-		}
+//		}
 		glDrawArrays(GL_TRIANGLES, 0, num_vertices);
 
 		// for memory 
