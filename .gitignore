@@ -31,6 +31,6 @@
 *.out
 *.app
 
-*.glsl
+# *.glsl
 Makefile
-07_hierarchical_modelling
+# 07_hierarchical_modelling

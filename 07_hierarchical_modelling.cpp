@@ -719,7 +719,7 @@ void initBuffersGL(void)
   colorbox();
   room();
 
-  roombox = new csX75::HNode(NULL,174,roompos,roomcol,tex_coords,sizeof(roompos),sizeof(roomcol), sizeof(tex_coords),false,tex);
+  roombox = new csX75::HNode(NULL,174,roompos,roomcol,tex_coords,sizeof(roompos),sizeof(roomcol), sizeof(tex_coords),true,tex);
 
 
 //   lowerbox = new csX75::HNode(NULL,num_vertices_box,v_positions_box,v_colors_box,NULL, sizeof(v_positions_box),sizeof(v_colors_box),NULL,false);
