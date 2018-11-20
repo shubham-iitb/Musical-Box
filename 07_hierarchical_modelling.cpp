@@ -161,6 +161,65 @@ glm::vec2 tex_coords[174];
 
 
 
+//--------------furniture declarations--------------
+
+glm::vec4 tabletoppos[36];
+glm::vec4 tabletopcol[36];
+
+glm::vec4 tableleg1pos[36];
+glm::vec4 tableleg1col[36];
+glm::vec4 tableleg2pos[36];
+glm::vec4 tableleg2col[36];
+glm::vec4 tableleg3pos[36];
+glm::vec4 tableleg3col[36];
+glm::vec4 tableleg4pos[36];
+glm::vec4 tableleg4col[36];
+
+
+glm::vec4 lampbasepos[390960];   //  frustom
+glm::vec4 lampbasecol[390960];
+glm::vec4 lamptrunkpos[390960];   //  frustom
+glm::vec4 lamptrunkcol[390960];
+glm::vec4 lamptoppos[390960];   //  frustom
+glm::vec4 lamptopcol[390960];
+
+
+glm::vec4 stooltoppos[390960];   //  frustom
+glm::vec4 stooltopcol[390960];
+
+glm::vec4 stoolleg1pos[390960];
+glm::vec4 stoolleg1col[390960];
+glm::vec4 stoolleg2pos[390960];
+glm::vec4 stoolleg2col[390960];
+glm::vec4 stoolleg3pos[390960];
+glm::vec4 stoolleg3col[390960];
+glm::vec4 stoolleg4pos[390960];
+glm::vec4 stoolleg4col[390960];
+
+
+glm::vec4 cupboardpos[36];
+glm::vec4 cupboardcol[36];
+
+
+glm::vec4 chairbasepos[36];
+glm::vec4 chairbasecol[36];
+glm::vec4 chairbackpos[36];
+glm::vec4 chairbackcol[36];
+
+glm::vec4 chairleg1pos[390960];   //  frustom
+glm::vec4 chairleg1col[390960];
+glm::vec4 chairleg2pos[390960];   //  frustom
+glm::vec4 chairleg2col[390960];
+glm::vec4 chairleg3pos[390960];   //  frustom
+glm::vec4 chairleg3col[390960];
+glm::vec4 chairleg4pos[390960];   //  frustom
+glm::vec4 chairleg4col[390960];
+
+
+glm::vec4 framepos[36];
+glm::vec4 framecol[36];
+
+
 //------------------------declarations end-----------------------
 
 
