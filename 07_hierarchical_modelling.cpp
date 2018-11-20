@@ -711,7 +711,7 @@ void initBuffersGL(void)
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
   vTexture = glGetAttribLocation( shaderProgram, "vTexture" ); 
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
-  GLuint tex=LoadTexture("./images/stones.bmp",256,256);
+  GLuint tex=LoadTexture("./images/wall.bmp",256,256);
   // GLuint tex=LoadTexture("images/stones.bmp",512,512);
 	// glBindTexture(GL_TEXTURE_2D, tex);
 
