@@ -219,6 +219,64 @@ glm::vec4 chairleg4col[390960];
 glm::vec4 framepos[36];
 glm::vec4 framecol[36];
 
+//--------------furniture declarations--------------
+
+glm::vec4 tabletoppos[36];
+glm::vec4 tabletopcol[36];
+
+glm::vec4 tableleg1pos[36];
+glm::vec4 tableleg1col[36];
+glm::vec4 tableleg2pos[36];
+glm::vec4 tableleg2col[36];
+glm::vec4 tableleg3pos[36];
+glm::vec4 tableleg3col[36];
+glm::vec4 tableleg4pos[36];
+glm::vec4 tableleg4col[36];
+
+
+glm::vec4 lampbasepos[390960];   //  frustom
+glm::vec4 lampbasecol[390960];
+glm::vec4 lamptrunkpos[390960];   //  frustom
+glm::vec4 lamptrunkcol[390960];
+glm::vec4 lamptoppos[390960];   //  frustom
+glm::vec4 lamptopcol[390960];
+
+
+glm::vec4 stooltoppos[390960];   //  frustom
+glm::vec4 stooltopcol[390960];
+
+glm::vec4 stoolleg1pos[390960];
+glm::vec4 stoolleg1col[390960];
+glm::vec4 stoolleg2pos[390960];
+glm::vec4 stoolleg2col[390960];
+glm::vec4 stoolleg3pos[390960];
+glm::vec4 stoolleg3col[390960];
+glm::vec4 stoolleg4pos[390960];
+glm::vec4 stoolleg4col[390960];
+
+
+glm::vec4 cupboardpos[36];
+glm::vec4 cupboardcol[36];
+
+
+glm::vec4 chairbasepos[36];
+glm::vec4 chairbasecol[36];
+glm::vec4 chairbackpos[36];
+glm::vec4 chairbackcol[36];
+
+glm::vec4 chairleg1pos[390960];   //  frustom
+glm::vec4 chairleg1col[390960];
+glm::vec4 chairleg2pos[390960];   //  frustom
+glm::vec4 chairleg2col[390960];
+glm::vec4 chairleg3pos[390960];   //  frustom
+glm::vec4 chairleg3col[390960];
+glm::vec4 chairleg4pos[390960];   //  frustom
+glm::vec4 chairleg4col[390960];
+
+
+glm::vec4 framepos[36];
+glm::vec4 framecol[36];
+
 
 //------------------------declarations end-----------------------
 
@@ -447,6 +505,101 @@ void room(void)
   room_quad_box(25,29,24,28);  
 
 }
+
+int get_cuboid_size(float l, float w, float h){
+  return 36;
+}
+
+void cuboid(float l, float w, float h,glm::vec4 vpos[]){
+  int ind = 0;
+  float l2 = l/2.0;
+  float w2 = w/2.0;
+  float h2 = h/2.0;
+
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,w2,-1*h2,1.0);
+  ind++;
+
+
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  ind++;
+
+
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  ind++; 
+
+
+  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  ind++; 
+  vpos[ind] = glm::vec4(l2,w2,-1*h2,1.0);
+  ind++; 
+
+
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  ind++;
+
+  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,w2,-1*h2,1.0);
+  ind++;
+}
+
+
 int get_cylinder_size(float height,float radius){
   int lats = 180;
   int longts = 360;
@@ -720,6 +873,174 @@ void initBuffersGL(void)
   room();
 
   roombox = new csX75::HNode(NULL,174,roompos,roomcol,tex_coords,sizeof(roompos),sizeof(roomcol), sizeof(tex_coords),true,tex);
+
+//   //-----------------------------------------------furniture---------------------------------------------------
+
+//   //---------------------table-------------------------------
+
+//   float tabletoplength = 40;
+//   float tabletopwidth = 20;
+//   float tabletopthickness = 5;
+//   float tablelegslength = 25;
+//   float tablelegsthickness = 3;
+
+//   cuboid(tabletoplength,tabletopwidth,tabletopthickness,tabletoppos);
+//   same_colors(0.5,0.2,0.1,36,tabletopcol);
+//   tabletop = new csX75::HNode(NULL,36,tabletoppos,tabletopcol,sizeof(tabletoppos),sizeof(tabletopcol));
+//   tabletop->change_parameters(0,0,0,90,0,0);
+
+//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg1pos);
+//   same_colors(0.7,0.4,0.3,36,tableleg1col);
+//   tableleg1 = new csX75::HNode(tabletop,36,tableleg1pos,tableleg1col,sizeof(tableleg1pos),sizeof(tableleg1col));
+//   tableleg1->change_parameters((tabletoplength-tablelegsthickness)/2.0,(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+
+//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg2pos);
+//   same_colors(0.7,0.4,0.3,36,tableleg2col);
+//   tableleg2 = new csX75::HNode(tabletop,36,tableleg2pos,tableleg2col,sizeof(tableleg2pos),sizeof(tableleg2col));
+//   tableleg2->change_parameters((tabletoplength-tablelegsthickness)/2.0,-1*(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+
+//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg3pos);
+//   same_colors(0.7,0.4,0.3,36,tableleg3col);
+//   tableleg3 = new csX75::HNode(tabletop,36,tableleg3pos,tableleg3col,sizeof(tableleg3pos),sizeof(tableleg3col));
+//   tableleg3->change_parameters(-1*(tabletoplength-tablelegsthickness)/2.0,(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+
+//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg4pos);
+//   same_colors(0.7,0.4,0.3,36,tableleg4col);
+//   tableleg4 = new csX75::HNode(tabletop,36,tableleg4pos,tableleg4col,sizeof(tableleg4pos),sizeof(tableleg4col));
+//   tableleg4->change_parameters(-1*(tabletoplength-tablelegsthickness)/2.0,-1*(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+
+
+//   //---------------------------lamp-------------------------------------
+
+//   float lampbasediameter = 10;
+//   float lampbasethickness = 3;
+//   float lamptrunklength = 22;
+//   float lamptrunkthickness = 4;
+//   float lamptopdiameter1 = 13;
+//   float lamptopdiameter2 = 6;
+//   float lamptopheight = 18;
+
+//   int lampbasesize = get_frustom_size(lampbasethickness,lampbasediameter,lampbasediameter);
+//   frustom(lampbasethickness,lampbasediameter,lampbasediameter,lampbasepos);
+//   same_colors(0.3,0.3,0.5,lampbasesize,lampbasecol);
+//   lampbase = new csX75::HNode(NULL,lampbasesize,lampbasepos,lampbasecol,sizeof(lampbasepos),sizeof(lampbasecol));
+//   lampbase->change_parameters(0,0,0,-90,0,0);
+
+//   int lamptrunksize = get_frustom_size(lamptrunklength,lamptrunkthickness,lamptrunkthickness);
+//   frustom(lamptrunklength,lamptrunkthickness,lamptrunkthickness,lamptrunkpos);
+//   same_colors(0.5,0.6,0.6,lamptrunksize,lamptrunkcol);
+//   lamptrunk = new csX75::HNode(lampbase,lamptrunksize,lamptrunkpos,lamptrunkcol,sizeof(lamptrunkpos),sizeof(lamptrunkcol));
+
+//   int lamptopsize = get_frustom_size(lamptopheight,lamptopdiameter1,lamptopdiameter2);
+//   frustom(lamptopheight,lamptopdiameter1,lamptopdiameter2,lamptoppos);
+//   same_colors(1,0.5,0.1,lamptopsize,lamptopcol);
+//   lamptop = new csX75::HNode(lamptrunk,lamptopsize,lamptoppos,lamptopcol,sizeof(lamptoppos),sizeof(lamptopcol));
+//   lamptop->change_parameters(0,0,lamptrunklength,0,0,0);
+
+
+//   //-------------------stool------------------------------------
+
+//   float stooltopthickness = 5;
+//   float stooltopdiameter = 10;
+//   float stoollegthickness = 2;
+//   float stoollegheight = 20;
+
+//   int stooltopsize = get_frustom_size(stooltopthickness,stooltopdiameter,stooltopdiameter);
+//   frustom(stooltopthickness,stooltopdiameter,stooltopdiameter,stooltoppos);
+//   same_colors(0.1,0.2,0.1,stooltopsize,stooltopcol);
+//   stooltop = new csX75::HNode(NULL,stooltopsize,stooltoppos,stooltopcol,sizeof(stooltoppos),sizeof(stooltopcol));
+//   stooltop->change_parameters(0,0,0,90,0,0);
+
+//   int stoolleg1size = get_frustom_size(stoollegheight,stoollegthickness,stoollegthickness);
+//   frustom(stoollegheight,stoollegthickness,stoollegthickness,stoolleg1pos);
+//   same_colors(0.3,0.3,0.5,stoolleg1size,stoolleg1col);
+//   stoolleg1 = new csX75::HNode(stooltop,stoolleg1size,stoolleg1pos,stoolleg1col,sizeof(stoolleg1pos),sizeof(stoolleg1col));
+//   stoolleg1->change_parameters(stooltopdiameter*0.7/1.414,stooltopdiameter*0.7/1.414,stooltopthickness,0,0,0);
+
+//   int stoolleg2size = get_frustom_size(stoollegheight,stoollegthickness,stoollegthickness);
+//   frustom(stoollegheight,stoollegthickness,stoollegthickness,stoolleg2pos);
+//   same_colors(0.3,0.3,0.5,stoolleg2size,stoolleg2col);
+//   stoolleg2 = new csX75::HNode(stooltop,stoolleg2size,stoolleg2pos,stoolleg2col,sizeof(stoolleg2pos),sizeof(stoolleg2col));
+//   stoolleg2->change_parameters(stooltopdiameter*0.7/1.414,-1*stooltopdiameter*0.7/1.414,stooltopthickness,0,0,0);
+
+//   int stoolleg3size = get_frustom_size(stoollegheight,stoollegthickness,stoollegthickness);
+//   frustom(stoollegheight,stoollegthickness,stoollegthickness,stoolleg3pos);
+//   same_colors(0.3,0.3,0.5,stoolleg3size,stoolleg3col);
+//   stoolleg3 = new csX75::HNode(stooltop,stoolleg3size,stoolleg3pos,stoolleg3col,sizeof(stoolleg3pos),sizeof(stoolleg3col));
+//   stoolleg3->change_parameters(-1*stooltopdiameter*0.7/1.414,stooltopdiameter*0.7/1.414,stooltopthickness,0,0,0);
+
+//   int stoolleg4size = get_frustom_size(stoollegheight,stoollegthickness,stoollegthickness);
+//   frustom(stoollegheight,stoollegthickness,stoollegthickness,stoolleg4pos);
+//   same_colors(0.3,0.3,0.5,stoolleg4size,stoolleg4col);
+//   stoolleg4 = new csX75::HNode(stooltop,stoolleg4size,stoolleg4pos,stoolleg4col,sizeof(stoolleg4pos),sizeof(stoolleg4col));
+//   stoolleg4->change_parameters(-1*stooltopdiameter*0.7/1.414,-1*stooltopdiameter*0.7/1.414,stooltopthickness,0,0,0);
+
+
+//   //--------------------cupboard--------------------------
+//   float cupboardlength = 35;
+//   float cupboardwidth = 25;
+//   float cupboardheight = 60;
+
+//   cuboid(cupboardlength,cupboardwidth,cupboardheight,cupboardpos);
+//   same_colors(0.5,0.2,0.1,36,cupboardcol);
+//   cupboard = new csX75::HNode(NULL,36,cupboardpos,cupboardcol,sizeof(cupboardpos),sizeof(cupboardcol));
+//   cupboard->change_parameters(0,0,0,90,0,0);
+
+//   //-------------------chair----------------------------------
+
+//   float chairbaselength = 13;
+//   float chairbasewidth = 15;
+//   float chairbasethickness = 5;
+//   float chairlegslength = 20;
+//   float chairlegsthickness = 3;
+//   float chairbacklength = 13;
+//   float chairbackwidth = 25;
+//   float chairbackthickness = 2; 
+
+//   cuboid(chairbaselength,chairbasewidth,chairbasethickness,chairbasepos);
+//   same_colors(0.5,0.1,0.1,36,chairbasecol);
+//   chairbase = new csX75::HNode(NULL,36,chairbasepos,chairbasecol,sizeof(chairbasepos),sizeof(chairbasecol));
+//   chairbase->change_parameters(0,0,0,90,0,0);
+
+//   cuboid(chairbacklength,chairbackwidth,chairbackthickness,chairbackpos);
+//   same_colors(0.2,0.1,0.1,36,chairbackcol);
+//   chairback = new csX75::HNode(chairbase,36,chairbackpos,chairbackcol,sizeof(chairbackpos),sizeof(chairbackcol));
+//   chairback->change_parameters(0,(chairbasewidth-chairbackthickness)/2.0,-1*(chairbacklength+2*chairbasethickness)/2.0,90,0,0);
+
+//   cuboid(chairlegsthickness,chairlegsthickness,chairlegslength,chairleg1pos);
+//   same_colors(0.7,0.4,0.3,36,chairleg1col);
+//   chairleg1 = new csX75::HNode(chairbase,36,chairleg1pos,chairleg1col,sizeof(chairleg1pos),sizeof(chairleg1col));
+//   chairleg1->change_parameters((chairbaselength-chairlegsthickness)/2.0,(chairbasewidth-chairlegsthickness)/2.0,(chairlegslength+chairbasethickness)/2.0,0,0,0);
+
+//   cuboid(chairlegsthickness,chairlegsthickness,chairlegslength,chairleg2pos);
+//   same_colors(0.7,0.4,0.3,36,chairleg2col);
+//   chairleg2 = new csX75::HNode(chairbase,36,chairleg2pos,chairleg2col,sizeof(chairleg2pos),sizeof(chairleg2col));
+//   chairleg2->change_parameters((chairbaselength-chairlegsthickness)/2.0,-1*(chairbasewidth-chairlegsthickness)/2.0,(chairlegslength+chairbasethickness)/2.0,0,0,0);
+
+//   cuboid(chairlegsthickness,chairlegsthickness,chairlegslength,chairleg3pos);
+//   same_colors(0.7,0.4,0.3,36,chairleg3col);
+//   chairleg3 = new csX75::HNode(chairbase,36,chairleg3pos,chairleg3col,sizeof(chairleg3pos),sizeof(chairleg3col));
+//   chairleg3->change_parameters(-1*(chairbaselength-chairlegsthickness)/2.0,(chairbasewidth-chairlegsthickness)/2.0,(chairlegslength+chairbasethickness)/2.0,0,0,0);
+
+//   cuboid(chairlegsthickness,chairlegsthickness,chairlegslength,chairleg4pos);
+//   same_colors(0.7,0.4,0.3,36,chairleg4col);
+//   chairleg4 = new csX75::HNode(chairbase,36,chairleg4pos,chairleg4col,sizeof(chairleg4pos),sizeof(chairleg4col));
+//   chairleg4->change_parameters(-1*(chairbaselength-chairlegsthickness)/2.0,-1*(chairbasewidth-chairlegsthickness)/2.0,(chairlegslength+chairbasethickness)/2.0,0,0,0);
+
+
+//   //-----------------frame-------------
+
+//   float framelength = 7.5;
+//   float framewidth = 2;
+//   float frameheight = 13;
+
+//   cuboid(framelength,framewidth,frameheight,framepos);
+//   same_colors(0.5,0.2,0.1,36,framecol);
+//   frame = new csX75::HNode(NULL,36,framepos,framecol,sizeof(framepos),sizeof(framecol));
+//   frame->change_parameters(0,0,0,90,0,0);
+
+  //-----------------------------------------------------------------------------------------------------------
+
 
 
 //   lowerbox = new csX75::HNode(NULL,num_vertices_box,v_positions_box,v_colors_box,NULL, sizeof(v_positions_box),sizeof(v_colors_box),NULL,false);

@@ -101,6 +101,43 @@ csX75::HNode* dogarm2;
 csX75::HNode* dogarm3;
 csX75::HNode* dogarm4;
 
+// ----------furniture---------
+
+csX75::HNode* tabletop;
+
+csX75::HNode* tableleg1;
+csX75::HNode* tableleg2;
+csX75::HNode* tableleg3;
+csX75::HNode* tableleg4;
+
+
+csX75::HNode* lampbase;
+csX75::HNode* lamptrunk;
+csX75::HNode* lamptop;
+
+
+csX75::HNode* stooltop;
+
+csX75::HNode* stoolleg1;
+csX75::HNode* stoolleg2;
+csX75::HNode* stoolleg3;
+csX75::HNode* stoolleg4;
+
+
+csX75::HNode* cupboard;
+
+
+csX75::HNode* chairbase;
+csX75::HNode* chairback;
+
+csX75::HNode* chairleg1;
+csX75::HNode* chairleg2;
+csX75::HNode* chairleg3;
+csX75::HNode* chairleg4;
+
+
+csX75::HNode* frame;
+
 
 //-------------------------------------------------------------------------
 
