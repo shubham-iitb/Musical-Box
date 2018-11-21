@@ -35,8 +35,8 @@ GLfloat xrot=0.0,yrot=0.0,zrot=0.0;*/
 GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 2.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
-float g_xtrans = 0.0, g_ytrans = 0.0, g_ztrans = -1600.0;
-float trans_factor = 0.02;
+
+int lighton1=0, lighton2=0;
 
 //Running variable to toggle culling on/off
 bool enable_culling=true;
@@ -49,6 +49,16 @@ GLuint vPosition,vColor,vTexture;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack;
+
+std::vector<csX75::HNode*> humanoid;
+std::vector<csX75::HNode*> dog;
+std::vector<std::vector<double>> allframes;
+std::vector<std::vector<double>> keyframes;
+bool playback = false;
+
+unsigned char *pRGB;
+
+
 
 csX75::HNode*  root_node;
 csX75::HNode*  curr_node;
