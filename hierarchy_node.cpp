@@ -68,7 +68,7 @@ namespace csX75
 			tex = texture;
 		}
 		// initialize vao and vbo of the object;
-		std::cout<<"entered Hnode\n";
+		// std::cout<<"entered Hnode\n";
 
 		//Ask GL for a Vertex Attribute Objects (vao)
 		glGenVertexArrays (1, &vao);
