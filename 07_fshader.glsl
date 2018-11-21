@@ -23,9 +23,9 @@ void main ()
 	// else frag_color = texture(texture1,tex);
 
 
-	vec4 diffuse = vec4(0.9,0.9,0.45,1.0);
+	vec4 diffuse = vec4(0.45,0.45,0.45,1.0);
 	vec4 ambient = vec4(0.0,0.1,0.0,1.0);
-	vec4 specular = vec4(0.3,0.3,0.3,1.0);
+	vec4 specular = vec4(0.3,0.3,0.7,1.0);
 	float shininess = 0.05;
 	vec4 spec = vec4(0.5);
 

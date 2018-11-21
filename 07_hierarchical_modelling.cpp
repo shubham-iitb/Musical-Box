@@ -1223,12 +1223,12 @@ void initBuffersGL(void)
   vTexture = glGetAttribLocation( shaderProgram, "vTexture" ); 
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
   GLuint tex=LoadTexture("./images/wall.bmp",512,512);
-  GLuint tabletoptexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint tabletoptexture=LoadTexture("./images/frame.bmp",256,256);
   GLuint lamptoptexture=LoadTexture("./images/lamp.bmp",256,256);
-  GLuint stooltoptexture=LoadTexture("./images/cupboard.bmp",256,256);
-  GLuint chairbasetexture=LoadTexture("./images/cupboard.bmp",256,256);
-  GLuint chairbacktexture=LoadTexture("./images/cupboard.bmp",256,256);
-  GLuint frametexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint stooltoptexture=LoadTexture("./images/stool.bmp",256,256);
+  GLuint chairbasetexture=LoadTexture("./images/stool.bmp",256,256);
+  GLuint chairbacktexture=LoadTexture("./images/stool.bmp",256,256);
+  GLuint frametexture=LoadTexture("./images/frame.bmp",256,256);
   GLuint cupboardtexture=LoadTexture("./images/cupboard.bmp",256,256);
   
   // GLuint tex=LoadTexture("images/stones.bmp",512,512);
@@ -1409,16 +1409,16 @@ void initBuffersGL(void)
 
 //   //-----------------frame-------------
 
-  float framelength = 7.5;
-  float framewidth = 2;
-  float frameheight = 13;
+  float framelength = 100;
+  float framewidth = 10;
+  float frameheight = 100;
 
   frametexfill();
 
   cuboid(framelength,framewidth,frameheight,framepos,framenormal);
   same_colors(0.5,0.2,0.1,36,framecol);
-  frame = new csX75::HNode(NULL,36,framepos,framecol,framenormal,frametex,sizeof(framepos),sizeof(framecol),sizeof(framenormal),sizeof(frametex),true,frametexture);
-  frame->change_parameters(0,0,0,90,0,0);
+  frame = new csX75::HNode(roombox,36,framepos,framecol,framenormal,frametex,sizeof(framepos),sizeof(framecol),sizeof(framenormal),sizeof(frametex),true,frametexture);
+  frame->change_parameters(roomlength*4.0/5.0-framewidth,roomheight*2.0/3.0,roomdepth-wallthickness-framewidth,90,0,0);
 
   //-----------------------------------------------------------------------------------------------------------
 
