@@ -39,7 +39,7 @@ namespace csX75	 {
 
 		
 		// HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, std::size_t, std::size_t);
-		HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, glm::vec2*, std::size_t, std::size_t, std::size_t, bool, GLuint);
+		HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, glm::vec4*, glm::vec2*, std::size_t, std::size_t, std::size_t, std::size_t, bool, GLuint);
 
 		//HNode (HNode* , glm::vec4*,  glm::vec4*,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat,GLfloat);
 		

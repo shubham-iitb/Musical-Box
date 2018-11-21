@@ -56,7 +56,7 @@ namespace csX75
 	// }
 
 
-	HNode::HNode(HNode* a_parent, GLuint num_v, glm::vec4* a_vertices, glm::vec4* a_colours, glm::vec2* a_tex_coords, std::size_t v_size, std::size_t c_size, std::size_t t_size, bool totex, GLuint texture){
+	HNode::HNode(HNode* a_parent, GLuint num_v, glm::vec4* a_vertices, glm::vec4* a_colours, glm::vec4* a_normals, glm::vec2* a_tex_coords, std::size_t v_size, std::size_t c_size, std::size_t n_size, std::size_t t_size, bool totex, GLuint texture){
 
 		num_vertices = num_v;
 		vertex_buffer_size = v_size;

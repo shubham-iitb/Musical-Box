@@ -52,8 +52,8 @@ std::vector<glm::mat4> matrixStack;
 
 std::vector<csX75::HNode*> humanoid;
 std::vector<csX75::HNode*> dog;
-std::vector<std::vector<double>> allframes;
-std::vector<std::vector<double>> keyframes;
+std::vector<std::vector<double> > allframes;
+std::vector<std::vector<double> > keyframes;
 bool playback = false;
 
 unsigned char *pRGB;
