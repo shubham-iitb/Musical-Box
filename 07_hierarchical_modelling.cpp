@@ -158,6 +158,7 @@ glm::vec4 dogarm4col[390960];
 glm::vec4 roompos[174];   // room
 glm::vec4 roomcol[174];
 glm::vec2 tex_coords[174];
+glm::vec4 roomnormal[174];
 
 
 
@@ -277,6 +278,122 @@ glm::vec4 chairleg4col[390960];
 glm::vec4 framepos[36];
 glm::vec4 framecol[36];
 
+// -----------------normals declarations-------------------------------
+glm::vec4 hiplnormal[390960];
+
+glm::vec4 hiprnormal[390960];
+
+glm::vec4 headnormal[388800];
+
+glm::vec4 necknormal[388800];
+
+glm::vec4 torso1normal[390960];
+
+glm::vec4 torso2normal[390960];
+
+glm::vec4 torso3normal[390960];
+
+glm::vec4 thighlnormal[390960];
+
+glm::vec4 thighrnormal[390960];
+
+glm::vec4 kneelnormal[388800];
+
+glm::vec4 kneernormal[388800];
+
+glm::vec4 leglnormal[390960];
+
+glm::vec4 legrnormal[390960];
+
+glm::vec4 footlnormal[388800];
+
+glm::vec4 footrnormal[388800];
+
+glm::vec4 shoulderlnormal[388800];
+
+glm::vec4 shoulderrnormal[388800];
+
+glm::vec4 uarmlnormal[390960];
+
+glm::vec4 uarmrnormal[390960];
+
+glm::vec4 elbowlnormal[388800];
+
+glm::vec4 elbowrnormal[388800];
+
+glm::vec4 larmlnormal[390960];
+
+glm::vec4 larmrnormal[390960];
+
+glm::vec4 handlnormal[388800];
+
+glm::vec4 handrnormal[388800];
+
+/// ------ props ------
+
+glm::vec4 hatnormal[390960];
+
+glm::vec4 umbrellasticknormal[390960];
+
+glm::vec4 umbrellafoldednormal[390960];
+
+glm::vec4 umbrellaopennormal[388800];
+
+//-----------------dog delcarations----------
+
+glm::vec4 dogtrunknormal[388800];  // ellipse
+
+glm::vec4 dogheadnormal[388800];   // ellipse
+
+glm::vec4 dognecknormal[390960];   //  frustom
+
+glm::vec4 dogtailnormal[390960];   // frustom
+
+glm::vec4 dogarm1normal[390960];   // frustom
+
+glm::vec4 dogarm2normal[390960];   // frustom
+
+glm::vec4 dogarm3normal[390960];   // frustom
+
+glm::vec4 dogarm4normal[390960];   // frustom
+
+
+//--------------furniture declarations--------------
+
+glm::vec4 tabletopnormal[36];
+
+glm::vec4 tableleg1normal[36];
+glm::vec4 tableleg2normal[36];
+glm::vec4 tableleg3normal[36];
+glm::vec4 tableleg4normal[36];
+
+
+glm::vec4 lampbasenormal[390960];   //  frustom
+glm::vec4 lamptrunknormal[390960];   //  frustom
+glm::vec4 lamptopnormal[390960];   //  frustom
+
+
+glm::vec4 stooltopnormal[390960];   //  frustom
+
+glm::vec4 stoolleg1normal[390960];
+glm::vec4 stoolleg2normal[390960];
+glm::vec4 stoolleg3normal[390960];
+glm::vec4 stoolleg4normal[390960];
+
+
+glm::vec4 cupboardnormal[36];
+
+
+glm::vec4 chairbasenormal[36];
+glm::vec4 chairbacknormal[36];
+
+glm::vec4 chairleg1normal[390960];   //  frustom
+glm::vec4 chairleg2normal[390960];   //  frustom
+glm::vec4 chairleg3normal[390960];   //  frustom
+glm::vec4 chairleg4normal[390960];   //  frustom
+
+
+glm::vec4 framenormal[36];
 
 //------------------------declarations end-----------------------
 
@@ -428,13 +545,14 @@ glm::vec4 colorsBox[16] = {
 
 void quad_box(int a, int b, int c, int d)
 {
-  v_colors_box[tri_idx] = colorsBox[a]; v_positions_box[tri_idx] = positionsBox[a]; tri_idx++;
-  v_colors_box[tri_idx] = colorsBox[b]; v_positions_box[tri_idx] = positionsBox[b]; tri_idx++;
-  v_colors_box[tri_idx] = colorsBox[c]; v_positions_box[tri_idx] = positionsBox[c]; tri_idx++;
-  v_colors_box[tri_idx] = colorsBox[a]; v_positions_box[tri_idx] = positionsBox[a]; tri_idx++;
-  v_colors_box[tri_idx] = colorsBox[c]; v_positions_box[tri_idx] = positionsBox[c]; tri_idx++;
-  v_colors_box[tri_idx] = colorsBox[d]; v_positions_box[tri_idx] = positionsBox[d]; tri_idx++;
+  v_colors_box[tri_idx] = colorsBox[a]; v_positions_box[tri_idx] = positionsBox[a] ;v_normals_box[tri_idx] = positionsBox[a]; tri_idx++;
+  v_colors_box[tri_idx] = colorsBox[b]; v_positions_box[tri_idx] = positionsBox[b] ;v_normals_box[tri_idx] = positionsBox[b]; tri_idx++;
+  v_colors_box[tri_idx] = colorsBox[c]; v_positions_box[tri_idx] = positionsBox[c] ;v_normals_box[tri_idx] = positionsBox[c]; tri_idx++;
+  v_colors_box[tri_idx] = colorsBox[a]; v_positions_box[tri_idx] = positionsBox[a] ;v_normals_box[tri_idx] = positionsBox[a]; tri_idx++;
+  v_colors_box[tri_idx] = colorsBox[c]; v_positions_box[tri_idx] = positionsBox[c] ;v_normals_box[tri_idx] = positionsBox[c]; tri_idx++;
+  v_colors_box[tri_idx] = colorsBox[d]; v_positions_box[tri_idx] = positionsBox[d] ;v_normals_box[tri_idx] = positionsBox[d]; tri_idx++;
  }
+
 
 
 void colorbox(void)
@@ -510,93 +628,94 @@ int get_cuboid_size(float l, float w, float h){
   return 36;
 }
 
-void cuboid(float l, float w, float h,glm::vec4 vpos[]){
+void cuboid(float l, float w, float h,glm::vec4 vpos[], glm::vec4 npos[]){
   int ind = 0;
   float l2 = l/2.0;
   float w2 = w/2.0;
   float h2 = h/2.0;
 
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,-1.0*h2,1.0); npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,-1.0*h2,1.0); npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,-1.0*h2,1.0); npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,-1.0*h2,1.0); npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,-1.0*h2,1.0); npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,w2,-1*h2,1.0);
-  ind++;
-
-
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,h2,1.0);
-  ind++;
-  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
-  ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
-  ind++;
-  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
-  ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
-  ind++;
-  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,-1.0*h2,1.0); npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
   ind++;
 
 
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,h2,1.0); npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1.0*l2,w2,h2,1.0);npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(-1.0*l2,w2,h2,1.0);npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
+  ind++;
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
+  ind++;
+
+
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(0.0,-1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(0.0,-1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(0.0,-1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(0.0,-1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(0.0,-1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(0.0,-1.0,0.0,1.0);
   ind++; 
 
 
-  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,h2,1.0);npos[ind] = glm::vec4(0.0,1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);npos[ind] = glm::vec4(0.0,1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,-1.0*h2,1.0);npos[ind] = glm::vec4(0.0,1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);npos[ind] = glm::vec4(0.0,1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,-1.0*h2,1.0);npos[ind] = glm::vec4(0.0,1.0,0.0,1.0);
   ind++; 
-  vpos[ind] = glm::vec4(l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,-1.0*h2,1.0);npos[ind] = glm::vec4(0.0,1.0,0.0,1.0);
   ind++; 
 
 
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(-1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(-1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,h2,1.0);npos[ind] = glm::vec4(-1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(-1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,h2,1.0);npos[ind] = glm::vec4(-1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(-1*l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(-1.0*l2,w2,-1.0*h2,1.0);npos[ind] = glm::vec4(-1.0,0.0,0.0,1.0);
   ind++;
 
-  vpos[ind] = glm::vec4(l2,-1*w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,h2,1.0);npos[ind] = glm::vec4(1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);npos[ind] = glm::vec4(1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,-1*w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,-1.0*w2,-1.0*h2,1.0);npos[ind] = glm::vec4(1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,w2,h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,h2,1.0);npos[ind] = glm::vec4(1.0,0.0,0.0,1.0);
   ind++;
-  vpos[ind] = glm::vec4(l2,w2,-1*h2,1.0);
+  vpos[ind] = glm::vec4(l2,w2,-1.0*h2,1.0);npos[ind] = glm::vec4(1.0,0.0,0.0,1.0);
   ind++;
+
 }
 
 
@@ -662,7 +781,7 @@ int get_frustom_size(float height,float r1, float r2){
 
 
 
-void frustom(float height,float r1,float r2,glm::vec4 vpos[]){
+void frustom(float height,float r1,float r2,glm::vec4 vpos[],glm::vec4 npos[]){
   float lats = 180;
   float sc = height/lats;
   int longts = 360;
@@ -671,10 +790,13 @@ void frustom(float height,float r1,float r2,glm::vec4 vpos[]){
 
   for(int i=0;i<longts;i++){
     vpos[ind] = glm::vec4(r1*cos(i*M_PI/180),r1*sin(i*M_PI/180),0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(0.0,0.0,0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(r1*cos((i+1)*M_PI/180),r1*sin((i+1)*M_PI/180),0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
     ind++;
   }
 
@@ -683,17 +805,23 @@ void frustom(float height,float r1,float r2,glm::vec4 vpos[]){
       float rr1 = r1 - j*((r1-r2)*1.0)/lats;
       float rr2 = r1 - (j+1)*((r1-r2)*1.0)/lats;
     vpos[ind] = glm::vec4(rr1*cos(i*M_PI/180),rr1*sin(i*M_PI/180),j*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr2*cos(i*M_PI/180),rr2*sin(i*M_PI/180),(j+1)*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr1*cos((i+1)*M_PI/180),rr1*sin((i+1)*M_PI/180),j*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
 
     vpos[ind] = glm::vec4(rr2*cos(i*M_PI/180),rr2*sin(i*M_PI/180),(j+1)*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr1*cos((i+1)*M_PI/180),rr1*sin((i+1)*M_PI/180),j*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr2*cos((i+1)*M_PI/180),rr2*sin((i+1)*M_PI/180),(j+1)*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
 
     }
@@ -701,10 +829,13 @@ void frustom(float height,float r1,float r2,glm::vec4 vpos[]){
 
   for(int i=0;i<longts;i++){
     vpos[ind] = glm::vec4(r2*cos(i*M_PI/180),r2*sin(i*M_PI/180),height,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(0.0,0.0,height,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(r2*cos((i+1)*M_PI/180),r2*sin((i+1)*M_PI/180),height,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
     ind++;
   }
 
@@ -718,7 +849,7 @@ int get_ellipse_size(float a1,float a2, float a3){
   return lats*longts*6;
 }
 
-void ellipse(double a1,double a3,double a2,glm::vec4 vpos[]){
+void ellipse(double a1,double a3,double a2,glm::vec4 vpos[],glm::vec4 npos[]){
   double lats = 180;
   double sc = a1/lats;
   int longts = 360;
@@ -731,16 +862,22 @@ void ellipse(double a1,double a3,double a2,glm::vec4 vpos[]){
     for(double j=0;j<longts;j++){
 
       vpos[ind] = glm::vec4(a3*sin(i*M_PI/180)*cos(j*M_PI/180)/2,a2*sin(i*M_PI/180)*sin(j*M_PI/180)/2,a1/2+a1*cos(i*M_PI/180)/2,1.0);
+      npos[ind] = vpos[ind];
       ind++;      
       vpos[ind] = glm::vec4(a3*sin(i*M_PI/180)*cos((j+1)*M_PI/180)/2,a2*sin(i*M_PI/180)*sin((j+1)*M_PI/180)/2,a1/2+a1*cos(i*M_PI/180)/2,1.0);
+      npos[ind] = vpos[ind];
       ind++;      
       vpos[ind] = glm::vec4(a3*sin((i+1)*M_PI/180)*cos(j*M_PI/180)/2,a2*sin((i+1)*M_PI/180)*sin(j*M_PI/180)/2,a1/2+a1*cos((i+1)*M_PI/180)/2,1.0);
+      npos[ind] = vpos[ind];
       ind++;      
       vpos[ind] = glm::vec4(a3*sin(i*M_PI/180)*cos((j+1)*M_PI/180)/2,a2*sin(i*M_PI/180)*sin((j+1)*M_PI/180)/2,a1/2+a1*cos(i*M_PI/180)/2,1.0);
+      npos[ind] = vpos[ind];
       ind++;      
       vpos[ind] = glm::vec4(a3*sin((i+1)*M_PI/180)*cos(j*M_PI/180)/2,a2*sin((i+1)*M_PI/180)*sin(j*M_PI/180)/2,a1/2+a1*cos((i+1)*M_PI/180)/2,1.0);
+      npos[ind] = vpos[ind];
       ind++;      
       vpos[ind] = glm::vec4(a3*sin((i+1)*M_PI/180)*cos((j+1)*M_PI/180)/2,a2*sin((i+1)*M_PI/180)*sin((j+1)*M_PI/180)/2,a1/2+a1*cos((i+1)*M_PI/180)/2,1.0);
+      npos[ind] = vpos[ind];
       ind++;      
 
     }
@@ -756,7 +893,7 @@ int get_elliptical_frustom_size(float height,float r1a,float r1b,float r2a,float
   return longts*12;
 }
 
-void elliptical_frustom(float height,float r1a,float r1b,float r2a,float r2b,glm::vec4 vpos[]){
+void elliptical_frustom(float height,float r1a,float r1b,float r2a,float r2b,glm::vec4 vpos[],glm::vec4 npos[]){
   float lats = 180;
 
   int longts = 360;
@@ -765,32 +902,44 @@ void elliptical_frustom(float height,float r1a,float r1b,float r2a,float r2b,glm
 
   for(int i=0;i<longts;i++){
     vpos[ind] = glm::vec4(r1a/2*cos(i*M_PI/180),r1b/2*sin(i*M_PI/180),0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(0.0,0.0,0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(r1a/2*cos((i+1)*M_PI/180),r1b/2*sin((i+1)*M_PI/180),0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,-1.0,1.0);
     ind++;
 
     vpos[ind] = glm::vec4(r2a/2*cos(i*M_PI/180),r2b/2*sin(i*M_PI/180),height,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(0.0,0.0,height,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(r2a/2*cos((i+1)*M_PI/180),r2b/2*sin((i+1)*M_PI/180),height,1.0);
+    npos[ind] = vpos[ind];
     ind++;
 
 
     vpos[ind] = glm::vec4(r1a/2*cos(i*M_PI/180),r1b/2*sin(i*M_PI/180),0.0,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(r1a/2*cos((i+1)*M_PI/180),r1b/2*sin((i+1)*M_PI/180),0.0,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(r2a/2*cos(i*M_PI/180),r2b/2*sin(i*M_PI/180),height,1.0);
+    npos[ind] = vpos[ind];
     ind++;
 
     vpos[ind] = glm::vec4(r1a/2*cos((i+1)*M_PI/180),r1b/2*sin((i+1)*M_PI/180),0.0,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(r2a/2*cos(i*M_PI/180),r2b/2*sin(i*M_PI/180),height,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
     ind++;
     vpos[ind] = glm::vec4(r2a/2*cos((i+1)*M_PI/180),r2b/2*sin((i+1)*M_PI/180),height,1.0);
+    npos[ind] = glm::vec4(0.0,0.0,1.0,1.0);
     ind++;   
   }
 
@@ -806,7 +955,7 @@ int get_cone_size(float height,float r1){
 
 
 
-void cone(float height,float r1,glm::vec4 vpos[]){
+void cone(float height,float r1,glm::vec4 vpos[],glm::vec4 npos[]){
   float lats = 180;
   float sc = height/lats;
   int longts = 360;
@@ -819,17 +968,23 @@ void cone(float height,float r1,glm::vec4 vpos[]){
       float rr1 = r1 - j*(r1*1.0)/lats;
       float rr2 = r1 - (j+1)*(r1*1.0)/lats;
     vpos[ind] = glm::vec4(rr1*cos(i*M_PI/180),rr1*sin(i*M_PI/180),j*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr2*cos(i*M_PI/180),rr2*sin(i*M_PI/180),(j+1)*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr1*cos((i+1)*M_PI/180),rr1*sin((i+1)*M_PI/180),j*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
 
     vpos[ind] = glm::vec4(rr2*cos(i*M_PI/180),rr2*sin(i*M_PI/180),(j+1)*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr1*cos((i+1)*M_PI/180),rr1*sin((i+1)*M_PI/180),j*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
     vpos[ind] = glm::vec4(rr2*cos((i+1)*M_PI/180),rr2*sin((i+1)*M_PI/180),(j+1)*sc,1.0);
+    npos[ind] = vpos[ind];
     ind++;
 
     }
@@ -872,7 +1027,8 @@ void initBuffersGL(void)
   colorbox();
   room();
 
-  roombox = new csX75::HNode(NULL,174,roompos,roomcol,tex_coords,sizeof(roompos),sizeof(roomcol), sizeof(tex_coords),true,tex);
+  for(int i=0;i<174;i++) roomnormal[i] = roompos[i];
+  roombox = new csX75::HNode(NULL,174,roompos,roomcol,tex_coords,roomnormal,sizeof(roompos),sizeof(roomcol), sizeof(tex_coords),sizeof(roomnormal),true,tex);
 
 //   //-----------------------------------------------furniture---------------------------------------------------
 
@@ -884,7 +1040,7 @@ void initBuffersGL(void)
 //   float tablelegslength = 25;
 //   float tablelegsthickness = 3;
 
-//   cuboid(tabletoplength,tabletopwidth,tabletopthickness,tabletoppos);
+//   cuboid(tabletoplength,tabletopwidth,tabletopthickness,tabletoppos,tabletopnormal);
 //   same_colors(0.5,0.2,0.1,36,tabletopcol);
 //   tabletop = new csX75::HNode(NULL,36,tabletoppos,tabletopcol,sizeof(tabletoppos),sizeof(tabletopcol));
 //   tabletop->change_parameters(0,0,0,90,0,0);
