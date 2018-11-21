@@ -27,6 +27,9 @@ namespace csX75	 {
 		std::size_t vertex_buffer_size;
 		std::size_t color_buffer_size;
 		std::size_t texture_buffer_size;
+		std::size_t normal_buffer_size;
+
+		glm::mat3 normal_matrix;
 
 		GLuint num_vertices;
 		GLuint vao,vbo,tex;

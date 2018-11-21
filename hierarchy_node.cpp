@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-extern GLuint vPosition,vColor,vTexture,uModelViewMatrix;
+extern GLuint vPosition,vColor,vTexture,uModelViewMatrix,vNormal,normalMatrix;
 extern std::vector<glm::mat4> matrixStack;
 
 namespace csX75
@@ -61,6 +61,7 @@ namespace csX75
 		num_vertices = num_v;
 		vertex_buffer_size = v_size;
 		color_buffer_size = c_size;
+		normal_buffer_size = n_size;
 		toTex = totex;
 
 		if(toTex) {
@@ -80,11 +81,12 @@ namespace csX75
 		glBindBuffer (GL_ARRAY_BUFFER, vbo);
 		
 		
-		if(toTex) glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size + texture_buffer_size, NULL, GL_STATIC_DRAW);
-		else glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, NULL, GL_STATIC_DRAW);
+		if(toTex) glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size + texture_buffer_size + normal_buffer_size, NULL, GL_STATIC_DRAW);
+		else glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size + normal_buffer_size, NULL, GL_STATIC_DRAW);
 		glBufferSubData( GL_ARRAY_BUFFER, 0, vertex_buffer_size, a_vertices );
 		glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size, color_buffer_size, a_colours );
-		if(toTex) glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, texture_buffer_size, a_tex_coords );
+		glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size, normal_buffer_size,a_normals );
+		if(toTex) glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size + normal_buffer_size, texture_buffer_size, a_tex_coords );
 
 		//setup the vertex array as per the shader
 		glEnableVertexAttribArray( vPosition );
@@ -93,9 +95,12 @@ namespace csX75
 		glEnableVertexAttribArray( vColor );
 		glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size));
 
+		glEnableVertexAttribArray( vNormal );
+		glVertexAttribPointer( vNormal, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size+color_buffer_size));
+
 		if(toTex){
 			glEnableVertexAttribArray( vTexture );
-			glVertexAttribPointer( vTexture, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size+color_buffer_size));
+			glVertexAttribPointer( vTexture, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size+color_buffer_size + normal_buffer_size));
 		}
 
 
@@ -150,6 +155,8 @@ namespace csX75
 		glm::mat4* ms_mult = multiply_stack(matrixStack);
 		
 		glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
+		normal_matrix = glm::transpose (glm::inverse(glm::mat3(*ms_mult)));
+		glUniformMatrix3fv(normalMatrix,1,GL_FALSE,glm::value_ptr(normal_matrix));
 		glEnable(GL_TEXTURE_2D);
 		glBindVertexArray (vao);
 //		if(toTex) {
