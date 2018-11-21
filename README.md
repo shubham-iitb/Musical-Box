@@ -101,8 +101,16 @@ We have done following tasks :
 	Placed the music box on table and other furnitures appropriately 
 	Textured all the furnitures
 	Added Controls to move Camera
-	
+	The lookat vector is set at the box at the table in the center so that all the view in the room can be seen via translation of camera.
 
+	We have done lighting also but we have not added the switch yet.
+
+	We have partially completed the function to output keyframes, interpolate between two frames and make multiple frames out of it, apply the frames.
+	We have also done saving the current frame to jpg file via saveFrame().
+
+	But since one of the piece was missing due to which we did not give this funtionality and hence commented it out.
+
+	
 
 References :
 
