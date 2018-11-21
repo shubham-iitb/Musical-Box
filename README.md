@@ -95,7 +95,14 @@ Note : Camera Motion controls are on keypad numbers (Not the number buttons plac
 
 
 We have done following tasks :
-	Created Room and added table 
+
+	Created Room and added table, door, window, lamp, a light
+	Added extra furnitures - wardrobe, photoframe, stool, chair
+	Placed the music box on table and other furnitures appropriately 
+	Textured all the furnitures
+	Added Controls to move Camera
+	
+
 
 References :
 
