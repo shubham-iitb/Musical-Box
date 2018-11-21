@@ -26,13 +26,16 @@ GLuint uModelViewMatrix;
 const int num_vertices = 36;
 const int num_vertices_box = 84;
 float length=24,width=24,height=6,thickness=2;
-float roomlength = 50, roomheight = 50, roomdepth = 50;
+float roomlength = 200, roomheight = 200, roomdepth = 200;
 float wallthickness = 5;
-float doorlength = 10, doorheight = 20, doorthickness = 5;
+float doorlength = 30, doorheight = 50, doorthickness = 5;
 float windowlength = 10, windowheight = 20, windowthickness = 5;
 int tri_idx=0;
 int room_idx=0;
-float wsize = 50.0;
+int num_frames;
+double timer = 1.0/24;
+
+float wsize = 200.0;
 glm::vec4 v_positions_box[num_vertices_box];
 glm::vec4 v_colors_box[num_vertices_box];
 glm::vec4 roomcolor = glm::vec4(0.2, 0.4, 0.5, 1.0);
@@ -165,15 +168,21 @@ glm::vec2 tex_coords[174];
 
 glm::vec4 tabletoppos[36];
 glm::vec4 tabletopcol[36];
+glm::vec2 tabletoptex[36];
+
 
 glm::vec4 tableleg1pos[36];
 glm::vec4 tableleg1col[36];
+// glm::vec4 tableleg1tex[36];
 glm::vec4 tableleg2pos[36];
 glm::vec4 tableleg2col[36];
+// glm::vec4 tableleg2tex[36];
 glm::vec4 tableleg3pos[36];
 glm::vec4 tableleg3col[36];
+// glm::vec4 tableleg3tex[36];
 glm::vec4 tableleg4pos[36];
 glm::vec4 tableleg4col[36];
+// glm::vec4 tableleg4tex[36];
 
 
 glm::vec4 lampbasepos[390960];   //  frustom
@@ -182,10 +191,12 @@ glm::vec4 lamptrunkpos[390960];   //  frustom
 glm::vec4 lamptrunkcol[390960];
 glm::vec4 lamptoppos[390960];   //  frustom
 glm::vec4 lamptopcol[390960];
+glm::vec2 lamptoptex[390960];
 
 
 glm::vec4 stooltoppos[390960];   //  frustom
 glm::vec4 stooltopcol[390960];
+glm::vec2 stooltoptex[390960];
 
 glm::vec4 stoolleg1pos[390960];
 glm::vec4 stoolleg1col[390960];
@@ -199,12 +210,15 @@ glm::vec4 stoolleg4col[390960];
 
 glm::vec4 cupboardpos[36];
 glm::vec4 cupboardcol[36];
+glm::vec2 cupboardtex[36];
 
 
 glm::vec4 chairbasepos[36];
 glm::vec4 chairbasecol[36];
+glm::vec2 chairbasetex[36];
 glm::vec4 chairbackpos[36];
 glm::vec4 chairbackcol[36];
+glm::vec2 chairbacktex[36];
 
 glm::vec4 chairleg1pos[390960];   //  frustom
 glm::vec4 chairleg1col[390960];
@@ -218,64 +232,7 @@ glm::vec4 chairleg4col[390960];
 
 glm::vec4 framepos[36];
 glm::vec4 framecol[36];
-
-//--------------furniture declarations--------------
-
-glm::vec4 tabletoppos[36];
-glm::vec4 tabletopcol[36];
-
-glm::vec4 tableleg1pos[36];
-glm::vec4 tableleg1col[36];
-glm::vec4 tableleg2pos[36];
-glm::vec4 tableleg2col[36];
-glm::vec4 tableleg3pos[36];
-glm::vec4 tableleg3col[36];
-glm::vec4 tableleg4pos[36];
-glm::vec4 tableleg4col[36];
-
-
-glm::vec4 lampbasepos[390960];   //  frustom
-glm::vec4 lampbasecol[390960];
-glm::vec4 lamptrunkpos[390960];   //  frustom
-glm::vec4 lamptrunkcol[390960];
-glm::vec4 lamptoppos[390960];   //  frustom
-glm::vec4 lamptopcol[390960];
-
-
-glm::vec4 stooltoppos[390960];   //  frustom
-glm::vec4 stooltopcol[390960];
-
-glm::vec4 stoolleg1pos[390960];
-glm::vec4 stoolleg1col[390960];
-glm::vec4 stoolleg2pos[390960];
-glm::vec4 stoolleg2col[390960];
-glm::vec4 stoolleg3pos[390960];
-glm::vec4 stoolleg3col[390960];
-glm::vec4 stoolleg4pos[390960];
-glm::vec4 stoolleg4col[390960];
-
-
-glm::vec4 cupboardpos[36];
-glm::vec4 cupboardcol[36];
-
-
-glm::vec4 chairbasepos[36];
-glm::vec4 chairbasecol[36];
-glm::vec4 chairbackpos[36];
-glm::vec4 chairbackcol[36];
-
-glm::vec4 chairleg1pos[390960];   //  frustom
-glm::vec4 chairleg1col[390960];
-glm::vec4 chairleg2pos[390960];   //  frustom
-glm::vec4 chairleg2col[390960];
-glm::vec4 chairleg3pos[390960];   //  frustom
-glm::vec4 chairleg3col[390960];
-glm::vec4 chairleg4pos[390960];   //  frustom
-glm::vec4 chairleg4col[390960];
-
-
-glm::vec4 framepos[36];
-glm::vec4 framecol[36];
+glm::vec2 frametex[36];
 
 
 //------------------------declarations end-----------------------
@@ -506,6 +463,96 @@ void room(void)
 
 }
 
+void tabletoptexfill(void){
+
+  int i=0;
+  while(i<36){
+    tabletoptex[i] = t_coords[1];i++;
+    tabletoptex[i] = t_coords[3];i++;
+    tabletoptex[i] = t_coords[0];i++;
+    tabletoptex[i] = t_coords[3];i++;
+    tabletoptex[i] = t_coords[0];i++;
+    tabletoptex[i] = t_coords[2];i++;    
+  }
+}
+
+void lamptoptexfill(void){
+
+  int i=0;
+  while(i<390960){
+    lamptoptex[i] = t_coords[1];i++;
+    lamptoptex[i] = t_coords[3];i++;
+    lamptoptex[i] = t_coords[0];i++;
+    lamptoptex[i] = t_coords[3];i++;
+    lamptoptex[i] = t_coords[0];i++;
+    lamptoptex[i] = t_coords[2];i++;    
+  }
+}
+
+void stooltoptexfill(void){
+  int i=0;
+  while(i<390960){
+    stooltoptex[i] = t_coords[1];i++;
+    stooltoptex[i] = t_coords[3];i++;
+    stooltoptex[i] = t_coords[0];i++;
+    stooltoptex[i] = t_coords[3];i++;
+    stooltoptex[i] = t_coords[0];i++;
+    stooltoptex[i] = t_coords[2];i++;    
+  }
+
+}
+
+void cupboardtexfill(void){
+int i=0;
+  while(i<36){
+    cupboardtex[i] = t_coords[1];i++;
+    cupboardtex[i] = t_coords[3];i++;
+    cupboardtex[i] = t_coords[0];i++;
+    cupboardtex[i] = t_coords[3];i++;
+    cupboardtex[i] = t_coords[0];i++;
+    cupboardtex[i] = t_coords[2];i++;    
+  }
+
+}
+
+void chairbacktexfill(void){
+int i=0;
+  while(i<36){
+    chairbacktex[i] = t_coords[1];i++;
+    chairbacktex[i] = t_coords[3];i++;
+    chairbacktex[i] = t_coords[0];i++;
+    chairbacktex[i] = t_coords[3];i++;
+    chairbacktex[i] = t_coords[0];i++;
+    chairbacktex[i] = t_coords[2];i++;    
+  }
+
+}
+
+void chairbasetexfill(void){
+int i=0;
+  while(i<36){
+    chairbasetex[i] = t_coords[1];i++;
+    chairbasetex[i] = t_coords[3];i++;
+    chairbasetex[i] = t_coords[0];i++;
+    chairbasetex[i] = t_coords[3];i++;
+    chairbasetex[i] = t_coords[0];i++;
+    chairbasetex[i] = t_coords[2];i++;    
+  }
+
+}
+
+void frametexfill(void){
+int i=0;
+  while(i<36){
+    frametex[i] = t_coords[1];i++;
+    frametex[i] = t_coords[3];i++;
+    frametex[i] = t_coords[0];i++;
+    frametex[i] = t_coords[3];i++;
+    frametex[i] = t_coords[0];i++;
+    frametex[i] = t_coords[2];i++;    
+  }
+
+}
 int get_cuboid_size(float l, float w, float h){
   return 36;
 }
@@ -845,6 +892,160 @@ void same_colors(float a,float b, float c,int n,glm::vec4 vcol[]){
 }
 //-----------------------------------------------------------------------------------
 
+
+// Frame start 
+
+std::string itos(int k) {
+  return std::to_string(k) + " ";
+}
+
+std::string itos(double k) {
+  return std::to_string(k) + " ";
+}
+
+std::string itos(bool k) {
+  return std::to_string(k) + " ";
+}
+
+double stodb(std::string s) {
+  return std::stod(s);
+}
+
+void saveFrame() {
+  std::ofstream frame_records;
+  frame_records.open("keyframes.txt", std::ios::app);
+  frame_records << itos(lighton1) + itos(lighton2);
+
+  for(auto k: humanoid) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+  for(auto k: dog) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+  frame_records << "\n";
+
+  frame_records.close();
+}
+
+
+void applyFrame(int kf_num) {
+  std::vector<double> frame = allframes[kf_num];
+  int j = 0;
+  lighton1 = frame[j++] > 0.5 ? 1 : 0;
+  lighton2 = frame[j++] > 0.5 ? 1 : 0;
+
+  for(auto k: humanoid) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+  for(auto k: dog) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+}
+
+std::vector<std::vector<double>> interpolate_two_frames(int t){
+  std::vector<std::vector<double>> i_frames;
+
+  for(int k = 0; k < 3; k++) {
+    for(int i=0;i<24;i++){
+      std::vector<double> frame;
+      for(int j=0;j<keyframes[t].size() - 6;j++){
+        frame.push_back((keyframes[t+k][j]*(24-i)+keyframes[t+k+1][j]*i)/24);
+      }
+      for(int j = keyframes[t].size() - 6; j < keyframes[t].size(); j++) {
+
+        double t1 = ((72-(i + k*24))/72.0);
+        double t2 = (i+k*24)/72.0;
+        if(keyframes[t][j] == keyframes[t+1][j] && keyframes[t+1][j] == keyframes[t+2][j] && keyframes[t+2][j] == keyframes[t+3][j])
+          frame.push_back(keyframes[t][j]);
+        else
+        frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
+      }
+      i_frames.push_back(frame);
+      frame.clear();
+    }
+  }
+
+  return i_frames;
+}
+
+void interpolate_all_frames(){
+  for(int i=0;i<keyframes.size()-3;i+=3){
+    std::vector<std::vector<double>> frames = interpolate_two_frames(i);
+    allframes.insert(allframes.end(),frames.begin(),frames.end());
+  }
+  allframes.push_back(keyframes[keyframes.size()-1]);
+}
+
+std::vector<double> parse_frame(std::string s) {
+  std::vector<double> frame;
+  std::istringstream is(s);
+  std::string part;
+  while(getline(is, part, ' ')) {
+    frame.push_back(stodb(part));
+  }
+  return frame;
+}
+
+void read_keyframes() {
+  std::string frame;
+  std::ifstream frame_records("keyframes.txt");
+  if(frame_records.is_open()) {
+    while(getline(frame_records, frame)) {
+      keyframes.push_back(parse_frame(frame));
+    }
+    frame_records.close();
+    interpolate_all_frames();
+  }
+  else {
+    playback = 0;
+    std::cout << "Unable to open keyframes.txt file";
+  }
+}
+
+void capture_frame(unsigned int framenum)
+{
+  //global pointer float *pRGB
+  pRGB = new unsigned char [3 * (1024+1) * (1024 + 1) ];
+
+
+  // set the framebuffer to read
+  //default for double buffered
+  glReadBuffer(GL_BACK);
+
+  glPixelStoref(GL_PACK_ALIGNMENT,1);//for word allignment
+
+  glReadPixels(0, 0, 1024, 1024, GL_RGB, GL_UNSIGNED_BYTE, pRGB);
+  char filename[200];
+  sprintf(filename,"frame_%04d.ppm",framenum);
+  std::ofstream out(filename, std::ios::out);
+  out<<"P6"<<std::endl;
+  out<<1024<<" "<<1024<<" 255"<<std::endl;
+  out.write(reinterpret_cast<char const *>(pRGB), (3 * (1024+1) * (1024 + 1)) * sizeof(int));
+  out.close();
+
+  //function to store pRGB in a file named count
+  delete pRGB;
+}
+
+
+// Frame end
+
 void initBuffersGL(void)
 {
 
@@ -864,7 +1065,15 @@ void initBuffersGL(void)
   vColor = glGetAttribLocation( shaderProgram, "vColor" );
   vTexture = glGetAttribLocation( shaderProgram, "vTexture" ); 
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
-  GLuint tex=LoadTexture("./images/wall.bmp",256,256);
+  GLuint tex=LoadTexture("./images/wall.bmp",512,512);
+  GLuint tabletoptexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint lamptoptexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint stooltoptexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint chairbasetexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint chairbacktexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint frametexture=LoadTexture("./images/cupboard.bmp",256,256);
+  GLuint cupboardtexture=LoadTexture("./images/cupboard.bmp",256,256);
+  
   // GLuint tex=LoadTexture("images/stones.bmp",512,512);
 	// glBindTexture(GL_TEXTURE_2D, tex);
 
@@ -874,43 +1083,43 @@ void initBuffersGL(void)
 
   roombox = new csX75::HNode(NULL,174,roompos,roomcol,tex_coords,sizeof(roompos),sizeof(roomcol), sizeof(tex_coords),true,tex);
 
-//   //-----------------------------------------------furniture---------------------------------------------------
+  //-----------------------------------------------furniture---------------------------------------------------
 
-//   //---------------------table-------------------------------
+  //---------------------table-------------------------------
 
-//   float tabletoplength = 40;
-//   float tabletopwidth = 20;
-//   float tabletopthickness = 5;
-//   float tablelegslength = 25;
-//   float tablelegsthickness = 3;
+  float tabletoplength = 40;
+  float tabletopwidth = 20;
+  float tabletopthickness = 5;
+  float tablelegslength = 25;
+  float tablelegsthickness = 3;
 
-//   cuboid(tabletoplength,tabletopwidth,tabletopthickness,tabletoppos);
-//   same_colors(0.5,0.2,0.1,36,tabletopcol);
-//   tabletop = new csX75::HNode(NULL,36,tabletoppos,tabletopcol,sizeof(tabletoppos),sizeof(tabletopcol));
-//   tabletop->change_parameters(0,0,0,90,0,0);
+  cuboid(tabletoplength,tabletopwidth,tabletopthickness,tabletoppos);
+  same_colors(0.5,0.2,0.1,36,tabletopcol);
+  tabletop = new csX75::HNode(NULL,36,tabletoppos,tabletopcol,sizeof(tabletoppos),sizeof(tabletopcol));
+  tabletop->change_parameters(0,0,0,90,0,0);
 
-//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg1pos);
-//   same_colors(0.7,0.4,0.3,36,tableleg1col);
-//   tableleg1 = new csX75::HNode(tabletop,36,tableleg1pos,tableleg1col,sizeof(tableleg1pos),sizeof(tableleg1col));
-//   tableleg1->change_parameters((tabletoplength-tablelegsthickness)/2.0,(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+  cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg1pos);
+  same_colors(0.7,0.4,0.3,36,tableleg1col);
+  tableleg1 = new csX75::HNode(tabletop,36,tableleg1pos,tableleg1col,sizeof(tableleg1pos),sizeof(tableleg1col));
+  tableleg1->change_parameters((tabletoplength-tablelegsthickness)/2.0,(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
 
-//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg2pos);
-//   same_colors(0.7,0.4,0.3,36,tableleg2col);
-//   tableleg2 = new csX75::HNode(tabletop,36,tableleg2pos,tableleg2col,sizeof(tableleg2pos),sizeof(tableleg2col));
-//   tableleg2->change_parameters((tabletoplength-tablelegsthickness)/2.0,-1*(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+  cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg2pos);
+  same_colors(0.7,0.4,0.3,36,tableleg2col);
+  tableleg2 = new csX75::HNode(tabletop,36,tableleg2pos,tableleg2col,sizeof(tableleg2pos),sizeof(tableleg2col));
+  tableleg2->change_parameters((tabletoplength-tablelegsthickness)/2.0,-1*(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
 
-//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg3pos);
-//   same_colors(0.7,0.4,0.3,36,tableleg3col);
-//   tableleg3 = new csX75::HNode(tabletop,36,tableleg3pos,tableleg3col,sizeof(tableleg3pos),sizeof(tableleg3col));
-//   tableleg3->change_parameters(-1*(tabletoplength-tablelegsthickness)/2.0,(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+  cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg3pos);
+  same_colors(0.7,0.4,0.3,36,tableleg3col);
+  tableleg3 = new csX75::HNode(tabletop,36,tableleg3pos,tableleg3col,sizeof(tableleg3pos),sizeof(tableleg3col));
+  tableleg3->change_parameters(-1*(tabletoplength-tablelegsthickness)/2.0,(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
 
-//   cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg4pos);
-//   same_colors(0.7,0.4,0.3,36,tableleg4col);
-//   tableleg4 = new csX75::HNode(tabletop,36,tableleg4pos,tableleg4col,sizeof(tableleg4pos),sizeof(tableleg4col));
-//   tableleg4->change_parameters(-1*(tabletoplength-tablelegsthickness)/2.0,-1*(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
+  cuboid(tablelegsthickness,tablelegsthickness,tablelegslength,tableleg4pos);
+  same_colors(0.7,0.4,0.3,36,tableleg4col);
+  tableleg4 = new csX75::HNode(tabletop,36,tableleg4pos,tableleg4col,sizeof(tableleg4pos),sizeof(tableleg4col));
+  tableleg4->change_parameters(-1*(tabletoplength-tablelegsthickness)/2.0,-1*(tabletopwidth-tablelegsthickness)/2.0,(tablelegslength+tabletopthickness)/2.0,0,0,0);
 
 
-//   //---------------------------lamp-------------------------------------
+  //---------------------------lamp-------------------------------------
 
 //   float lampbasediameter = 10;
 //   float lampbasethickness = 3;
@@ -977,14 +1186,14 @@ void initBuffersGL(void)
 
 
 //   //--------------------cupboard--------------------------
-//   float cupboardlength = 35;
-//   float cupboardwidth = 25;
-//   float cupboardheight = 60;
+  // float cupboardlength = 35;
+  // float cupboardwidth = 25;
+  // float cupboardheight = 60;
 
-//   cuboid(cupboardlength,cupboardwidth,cupboardheight,cupboardpos);
-//   same_colors(0.5,0.2,0.1,36,cupboardcol);
-//   cupboard = new csX75::HNode(NULL,36,cupboardpos,cupboardcol,sizeof(cupboardpos),sizeof(cupboardcol));
-//   cupboard->change_parameters(0,0,0,90,0,0);
+  // cuboid(cupboardlength,cupboardwidth,cupboardheight,cupboardpos);
+  // same_colors(0.5,0.2,0.1,36,cupboardcol);
+  // cupboard = new csX75::HNode(NULL,36,cupboardpos,cupboardcol,cupboardtexcoor,sizeof(cupboardpos),sizeof(cupboardcol),sizeof(cupboardtexcoor),true,cupboardtexture);
+  // cupboard->change_parameters(0,0,0,90,0,0);
 
 //   //-------------------chair----------------------------------
 
@@ -1051,160 +1260,185 @@ void initBuffersGL(void)
 
 
 
-//   //------------------------------------------------- Humanoid---------------------------------------------------------
+  //------------------------------------------------- Humanoid---------------------------------------------------------
 
 
-//   int torso3size = get_elliptical_frustom_size(5,6,3,7,3);
-//   elliptical_frustom(5,6,3,7,3,torso3pos);
-//   same_colors(1.0, 0.0, 0.0,torso3size,torso3col);
-//   torso3 = new csX75::HNode(NULL,torso3size,torso3pos,torso3col,NULL,sizeof(torso3pos),sizeof(torso3col),NULL,false);
-//   torso3->change_parameters(0,14,0,90.0,0.0,0.0);
+  int torso3size = get_elliptical_frustom_size(5,6,3,7,3);
+  elliptical_frustom(5,6,3,7,3,torso3pos);
+  same_colors(1.0, 0.0, 0.0,torso3size,torso3col);
+  torso3 = new csX75::HNode(NULL,torso3size,torso3pos,torso3col,NULL,sizeof(torso3pos),sizeof(torso3col),NULL,false);
+  torso3->change_parameters(0,14,0,90.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int torso2size = get_ellipse_size(3,6,3);
-//   ellipse(3,6,3,torso2pos);
-//   same_colors(0.7, 0.0, 0.0,torso2size,torso2col);
-//   torso2 = new csX75::HNode(torso3,torso2size,torso2pos,torso2col,NULL,sizeof(torso2pos),sizeof(torso2col),NULL,false);
-//   torso2->change_parameters(0.0,0.0,0.5,180.0,0.0,0.0);
+  int torso2size = get_ellipse_size(3,6,3);
+  ellipse(3,6,3,torso2pos);
+  same_colors(0.7, 0.0, 0.0,torso2size,torso2col);
+  torso2 = new csX75::HNode(torso3,torso2size,torso2pos,torso2col,NULL,sizeof(torso2pos),sizeof(torso2col),NULL,false);
+  torso2->change_parameters(0.0,0.0,0.5,180.0,0.0,0.0);
+  humanoid.push_back(torso2);
 
-//   int torso1size = get_elliptical_frustom_size(7,6,3,9,4);
-//   elliptical_frustom(7,6,3,9,4,torso1pos);
-//   same_colors(0.9, 0.0, 0.0,torso1size,torso1col);
-//   torso1 = new csX75::HNode(torso2,torso1size,torso1pos,torso1col,NULL,sizeof(torso1pos),sizeof(torso1col),NULL,false);
-//   torso1->change_parameters(0.0,0.0,2.5,0.0,0.0,0.0);
+  int torso1size = get_elliptical_frustom_size(7,6,3,9,4);
+  elliptical_frustom(7,6,3,9,4,torso1pos);
+  same_colors(0.9, 0.0, 0.0,torso1size,torso1col);
+  torso1 = new csX75::HNode(torso2,torso1size,torso1pos,torso1col,NULL,sizeof(torso1pos),sizeof(torso1col),NULL,false);
+  torso1->change_parameters(0.0,0.0,2.5,0.0,0.0,0.0);
+  humanoid.push_back(torso1);
 
-//   int shoulderlsize = get_ellipse_size(2,2,2);
-//   ellipse(2,2,2,shoulderlpos);
-//   same_colors(0.0,0.0,0.8,shoulderlsize,shoulderlcol);
-//   shoulderl = new csX75::HNode(torso1,shoulderlsize,shoulderlpos,shoulderlcol,NULL,sizeof(shoulderlpos),sizeof(shoulderlcol,NULL,false));
-//   shoulderl->change_parameters(5.5,0.0,5.5,0.0,0.0,0.0);
+  int shoulderlsize = get_ellipse_size(2,2,2);
+  ellipse(2,2,2,shoulderlpos);
+  same_colors(0.0,0.0,0.8,shoulderlsize,shoulderlcol);
+  shoulderl = new csX75::HNode(torso1,shoulderlsize,shoulderlpos,shoulderlcol,NULL,sizeof(shoulderlpos),sizeof(shoulderlcol,NULL,false));
+  shoulderl->change_parameters(5.5,0.0,5.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int shoulderrsize = get_ellipse_size(2,2,2);
-//   ellipse(2,2,2,shoulderrpos);
-//   same_colors(0.0,0.0,0.8,shoulderrsize,shoulderrcol);
-//   shoulderr = new csX75::HNode(torso1,shoulderrsize,shoulderrpos,shoulderrcol,NULL,sizeof(shoulderrpos),sizeof(shoulderrcol),NULL,false);
-//   shoulderr->change_parameters(-5.5,0.0,5.5,0.0,0.0,0.0);
+  int shoulderrsize = get_ellipse_size(2,2,2);
+  ellipse(2,2,2,shoulderrpos);
+  same_colors(0.0,0.0,0.8,shoulderrsize,shoulderrcol);
+  shoulderr = new csX75::HNode(torso1,shoulderrsize,shoulderrpos,shoulderrcol,NULL,sizeof(shoulderrpos),sizeof(shoulderrcol),NULL,false);
+  shoulderr->change_parameters(-5.5,0.0,5.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int uarmlsize = get_frustom_size(7,1.2,0.8);
-//   frustom(7,1.2,0.8,uarmlpos);
-//   same_colors(0.8,0.0,0.0,uarmlsize,uarmlcol);
-//   uarml = new csX75::HNode(shoulderl,uarmlsize,uarmlpos,uarmlcol,sizeof(uarmlpos),sizeof(uarmlcol));
-//   uarml->change_parameters(0.0,0.0,0.0,180.0,0.0,0.0);
+  int uarmlsize = get_frustom_size(7,1.2,0.8);
+  frustom(7,1.2,0.8,uarmlpos);
+  same_colors(0.8,0.0,0.0,uarmlsize,uarmlcol);
+  uarml = new csX75::HNode(shoulderl,uarmlsize,uarmlpos,uarmlcol,sizeof(uarmlpos),sizeof(uarmlcol));
+  uarml->change_parameters(0.0,0.0,0.0,180.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int uarmrsize = get_frustom_size(7,1.2,0.8);
-//   frustom(7,1.2,0.8,uarmrpos);
-//   same_colors(0.8,0.0,0.0,uarmrsize,uarmrcol);
-//   uarmr = new csX75::HNode(shoulderr,uarmrsize,uarmrpos,uarmrcol,sizeof(uarmrpos),sizeof(uarmrcol));
-//   uarmr->change_parameters(0.0,0.0,0.0,180.0,0.0,0.0);
+  int uarmrsize = get_frustom_size(7,1.2,0.8);
+  frustom(7,1.2,0.8,uarmrpos);
+  same_colors(0.8,0.0,0.0,uarmrsize,uarmrcol);
+  uarmr = new csX75::HNode(shoulderr,uarmrsize,uarmrpos,uarmrcol,sizeof(uarmrpos),sizeof(uarmrcol));
+  uarmr->change_parameters(0.0,0.0,0.0,180.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int elbowlsize = get_ellipse_size(1.0,1.5,1.5);
-//   ellipse(1.0,1.5,1.5,elbowlpos);
-//   same_colors(0.0,0.0,0.8,elbowlsize,elbowlcol);
-//   elbowl = new csX75::HNode(uarml,elbowlsize,elbowlpos,elbowlcol,sizeof(elbowlpos),sizeof(elbowlcol));
-//   elbowl->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  int elbowlsize = get_ellipse_size(1.0,1.5,1.5);
+  ellipse(1.0,1.5,1.5,elbowlpos);
+  same_colors(0.0,0.0,0.8,elbowlsize,elbowlcol);
+  elbowl = new csX75::HNode(uarml,elbowlsize,elbowlpos,elbowlcol,sizeof(elbowlpos),sizeof(elbowlcol));
+  elbowl->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int elbowrsize = get_ellipse_size(1.0,1.5,1.5);
-//   ellipse(1.0,1.5,1.5,elbowrpos);
-//   same_colors(0.0,0.0,0.8,elbowrsize,elbowrcol);
-//   elbowr = new csX75::HNode(uarmr,elbowrsize,elbowrpos,elbowrcol,sizeof(elbowrpos),sizeof(elbowrcol));
-//   elbowr->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  int elbowrsize = get_ellipse_size(1.0,1.5,1.5);
+  ellipse(1.0,1.5,1.5,elbowrpos);
+  same_colors(0.0,0.0,0.8,elbowrsize,elbowrcol);
+  elbowr = new csX75::HNode(uarmr,elbowrsize,elbowrpos,elbowrcol,sizeof(elbowrpos),sizeof(elbowrcol));
+  elbowr->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int larmlsize = get_frustom_size(6,0.8,0.5);
-//   frustom(6,0.8,0.5,larmlpos);
-//   same_colors(1.0,1.0,0.0,larmlsize,larmlcol);
-//   larml = new csX75::HNode(elbowl,larmlsize,larmlpos,larmlcol,sizeof(larmlpos),sizeof(larmlcol));
-//   larml->change_parameters(0.0,0.0,1.0,0.0,0.0,0.0);
+  int larmlsize = get_frustom_size(6,0.8,0.5);
+  frustom(6,0.8,0.5,larmlpos);
+  same_colors(1.0,1.0,0.0,larmlsize,larmlcol);
+  larml = new csX75::HNode(elbowl,larmlsize,larmlpos,larmlcol,sizeof(larmlpos),sizeof(larmlcol));
+  larml->change_parameters(0.0,0.0,1.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int larmrsize = get_frustom_size(6,0.8,0.5);
-//   frustom(6,0.8,0.5,larmrpos);
-//   same_colors(1.0,1.0,0.0,larmrsize,larmrcol);
-//   larmr = new csX75::HNode(elbowr,larmrsize,larmrpos,larmrcol,sizeof(larmrpos),sizeof(larmrcol));
-//   larmr->change_parameters(0.0,0.0,1.0,0.0,0.0,0.0);
+  int larmrsize = get_frustom_size(6,0.8,0.5);
+  frustom(6,0.8,0.5,larmrpos);
+  same_colors(1.0,1.0,0.0,larmrsize,larmrcol);
+  larmr = new csX75::HNode(elbowr,larmrsize,larmrpos,larmrcol,sizeof(larmrpos),sizeof(larmrcol));
+  larmr->change_parameters(0.0,0.0,1.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int handlsize = get_ellipse_size(4,2,1.5);
-//   ellipse(4,2,1.5,handlpos);
-//   same_colors(1.0,0.8,0.6,handlsize,handlcol);
-//   handl = new csX75::HNode(larml,handlsize,handlpos,handlcol,sizeof(handlpos),sizeof(handlcol));
-//   handl->change_parameters(0.0,0.0,5.0,0.0,0.0,0.0);
+  int handlsize = get_ellipse_size(4,2,1.5);
+  ellipse(4,2,1.5,handlpos);
+  same_colors(1.0,0.8,0.6,handlsize,handlcol);
+  handl = new csX75::HNode(larml,handlsize,handlpos,handlcol,sizeof(handlpos),sizeof(handlcol));
+  handl->change_parameters(0.0,0.0,5.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int handrsize = get_ellipse_size(4,2,1.5);
-//   ellipse(4,2,1.5,handrpos);
-//   same_colors(1.0,0.8,0.6,handrsize,handrcol);
-//   handr = new csX75::HNode(larmr,handrsize,handrpos,handrcol,sizeof(handrpos),sizeof(handrcol));
-//   handr->change_parameters(0.0,0.0,5.0,0.0,0.0,0.0);
-
-
-//   int necksize = get_ellipse_size(1.5,3.5,3.5);
-//   ellipse(1.5,3.5,3.5,neckpos);
-//   same_colors(0.9,0.7,0.5,necksize,neckcol);
-//   neck = new csX75::HNode(torso1,necksize,neckpos,neckcol,sizeof(neckpos),sizeof(neckcol));
-//   neck->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
-
-//   int headsize = get_ellipse_size(7,4,4);
-//   ellipse(7,4,4,headpos);
-//   same_colors(1.0,0.8,0.6,headsize,headcol);
-//   head = new csX75::HNode(neck,headsize,headpos,headcol,sizeof(headpos),sizeof(headcol));
-//   head->change_parameters(0.0,0.0,1.5,0.0,0.0,0.0);
-
-//   int hiplsize = get_ellipse_size(1.5,3.5,3.5);
-//   ellipse(1.5,3.5,3.5,hiplpos);
-//   same_colors(0.0, 0.0, 0.8,hiplsize,hiplcol);
-//   hipl = new csX75::HNode(torso3,hiplsize,hiplpos,hiplcol,sizeof(hiplpos),sizeof(hiplcol));
-//   hipl->change_parameters(2.0,0.0,5.0,0.0,0.0,0.0);
-
-//   int hiprsize = get_ellipse_size(1.5,3.5,3.5);
-//   ellipse(1.5,3.5,3.5,hiprpos);
-//   same_colors(0.0, 0.0, 0.8,hiprsize,hiprcol);
-//   hipr = new csX75::HNode(torso3,hiprsize,hiprpos,hiprcol,sizeof(hiprpos),sizeof(hiprcol));
-//   hipr->change_parameters(-2.0,0.0,5.0,0.0,0.0,0.0);
-
-//   int thighlsize = get_frustom_size(7,1.5,1.0);
-//   frustom(7,1.5,1.0,thighlpos);
-//   same_colors(0.0, 0.0, 0.8,thighlsize,thighlcol);
-//   thighl = new csX75::HNode(hipl,thighlsize,thighlpos,thighlcol,sizeof(thighlpos),sizeof(thighlcol));
-//   thighl->change_parameters(0.0,0.0,1.5,0.0,0.0,0.0);
-
-//   int thighrsize = get_frustom_size(7,1.5,1.0);
-//   frustom(7,1.5,1.0,thighrpos);
-//   same_colors(0.0, 0.0, 0.8,thighrsize,thighrcol);
-//   thighr = new csX75::HNode(hipr,thighrsize,thighrpos,thighrcol,sizeof(thighrpos),sizeof(thighrcol));
-//   thighr->change_parameters(0.0,0.0,1.5,0.0,0.0,0.0);
-
-//   int kneelsize = get_ellipse_size(1.5,2.5,2.5);
-//   ellipse(1.5,2.5,2.5,kneelpos);
-//   same_colors(0.0, 0.0, 0.6,kneelsize,kneelcol);
-//   kneel = new csX75::HNode(thighl,kneelsize,kneelpos,kneelcol,sizeof(kneelpos),sizeof(kneelcol));
-//   kneel->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
-
-//   int kneersize = get_ellipse_size(1.5,2.5,2.5);
-//   ellipse(1.5,2.5,2.5,kneerpos);
-//   same_colors(0.0, 0.0, 0.6,kneersize,kneercol);
-//   kneer = new csX75::HNode(thighr,kneersize,kneerpos,kneercol,sizeof(kneerpos),sizeof(kneercol));
-//   kneer->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
-
-//   int leglsize = get_frustom_size(7,1.2,0.8);
-//   frustom(7,1.2,0.8,leglpos);
-//   same_colors(0.0, 0.0, 0.6,leglsize,leglcol);
-//   legl = new csX75::HNode(kneel,leglsize,leglpos,leglcol,sizeof(leglpos),sizeof(leglcol));
-//   legl->change_parameters(0.0,0.0,1.25,0.0,0.0,0.0);
-
-//   int legrsize = get_frustom_size(7,1.2,0.8);
-//   frustom(7,1.2,0.8,legrpos);
-//   same_colors(0.0, 0.0, 0.6,legrsize,legrcol);
-//   legr = new csX75::HNode(kneer,legrsize,legrpos,legrcol,sizeof(legrpos),sizeof(legrcol));
-//   legr->change_parameters(0.0,0.0,1.25,0.0,0.0,0.0);
+  int handrsize = get_ellipse_size(4,2,1.5);
+  ellipse(4,2,1.5,handrpos);
+  same_colors(1.0,0.8,0.6,handrsize,handrcol);
+  handr = new csX75::HNode(larmr,handrsize,handrpos,handrcol,sizeof(handrpos),sizeof(handrcol));
+  handr->change_parameters(0.0,0.0,5.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
 
-//   int footlsize = get_ellipse_size(1.5,3,6);
-//   ellipse(1.50,3,6.0,footlpos);
-//   same_colors(0.2,0.2,0.2,footlsize,footlcol);
-//   footl = new csX75::HNode(legl,footlsize,footlpos,footlcol,sizeof(footlpos),sizeof(footlcol));
-//   footl->change_parameters(0.0,1.0,7.0,0.0,0.0,0.0);
+  int necksize = get_ellipse_size(1.5,3.5,3.5);
+  ellipse(1.5,3.5,3.5,neckpos);
+  same_colors(0.9,0.7,0.5,necksize,neckcol);
+  neck = new csX75::HNode(torso1,necksize,neckpos,neckcol,sizeof(neckpos),sizeof(neckcol));
+  neck->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
-//   int footrsize = get_ellipse_size(1.5,3,6);
-//   ellipse(1.5,3,6,footrpos);
-//   same_colors(0.2,0.2,0.2,footrsize,footrcol);
-//   footr = new csX75::HNode(legr,footrsize,footrpos,footrcol,sizeof(footrpos),sizeof(footrcol));
-//   footr->change_parameters(0.0,1.0,7.0,0.0,0.0,0.0);
+  int headsize = get_ellipse_size(7,4,4);
+  ellipse(7,4,4,headpos);
+  same_colors(1.0,0.8,0.6,headsize,headcol);
+  head = new csX75::HNode(neck,headsize,headpos,headcol,sizeof(headpos),sizeof(headcol));
+  head->change_parameters(0.0,0.0,1.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int hiplsize = get_ellipse_size(1.5,3.5,3.5);
+  ellipse(1.5,3.5,3.5,hiplpos);
+  same_colors(0.0, 0.0, 0.8,hiplsize,hiplcol);
+  hipl = new csX75::HNode(torso3,hiplsize,hiplpos,hiplcol,sizeof(hiplpos),sizeof(hiplcol));
+  hipl->change_parameters(2.0,0.0,5.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int hiprsize = get_ellipse_size(1.5,3.5,3.5);
+  ellipse(1.5,3.5,3.5,hiprpos);
+  same_colors(0.0, 0.0, 0.8,hiprsize,hiprcol);
+  hipr = new csX75::HNode(torso3,hiprsize,hiprpos,hiprcol,sizeof(hiprpos),sizeof(hiprcol));
+  hipr->change_parameters(-2.0,0.0,5.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int thighlsize = get_frustom_size(7,1.5,1.0);
+  frustom(7,1.5,1.0,thighlpos);
+  same_colors(0.0, 0.0, 0.8,thighlsize,thighlcol);
+  thighl = new csX75::HNode(hipl,thighlsize,thighlpos,thighlcol,sizeof(thighlpos),sizeof(thighlcol));
+  thighl->change_parameters(0.0,0.0,1.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int thighrsize = get_frustom_size(7,1.5,1.0);
+  frustom(7,1.5,1.0,thighrpos);
+  same_colors(0.0, 0.0, 0.8,thighrsize,thighrcol);
+  thighr = new csX75::HNode(hipr,thighrsize,thighrpos,thighrcol,sizeof(thighrpos),sizeof(thighrcol));
+  thighr->change_parameters(0.0,0.0,1.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int kneelsize = get_ellipse_size(1.5,2.5,2.5);
+  ellipse(1.5,2.5,2.5,kneelpos);
+  same_colors(0.0, 0.0, 0.6,kneelsize,kneelcol);
+  kneel = new csX75::HNode(thighl,kneelsize,kneelpos,kneelcol,sizeof(kneelpos),sizeof(kneelcol));
+  kneel->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int kneersize = get_ellipse_size(1.5,2.5,2.5);
+  ellipse(1.5,2.5,2.5,kneerpos);
+  same_colors(0.0, 0.0, 0.6,kneersize,kneercol);
+  kneer = new csX75::HNode(thighr,kneersize,kneerpos,kneercol,sizeof(kneerpos),sizeof(kneercol));
+  kneer->change_parameters(0.0,0.0,6.5,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int leglsize = get_frustom_size(7,1.2,0.8);
+  frustom(7,1.2,0.8,leglpos);
+  same_colors(0.0, 0.0, 0.6,leglsize,leglcol);
+  legl = new csX75::HNode(kneel,leglsize,leglpos,leglcol,sizeof(leglpos),sizeof(leglcol));
+  legl->change_parameters(0.0,0.0,1.25,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int legrsize = get_frustom_size(7,1.2,0.8);
+  frustom(7,1.2,0.8,legrpos);
+  same_colors(0.0, 0.0, 0.6,legrsize,legrcol);
+  legr = new csX75::HNode(kneer,legrsize,legrpos,legrcol,sizeof(legrpos),sizeof(legrcol));
+  legr->change_parameters(0.0,0.0,1.25,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+
+  int footlsize = get_ellipse_size(1.5,3,6);
+  ellipse(1.50,3,6.0,footlpos);
+  same_colors(0.2,0.2,0.2,footlsize,footlcol);
+  footl = new csX75::HNode(legl,footlsize,footlpos,footlcol,sizeof(footlpos),sizeof(footlcol));
+  footl->change_parameters(0.0,1.0,7.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
+
+  int footrsize = get_ellipse_size(1.5,3,6);
+  ellipse(1.5,3,6,footrpos);
+  same_colors(0.2,0.2,0.2,footrsize,footrcol);
+  footr = new csX75::HNode(legr,footrsize,footrpos,footrcol,sizeof(footrpos),sizeof(footrcol));
+  footr->change_parameters(0.0,1.0,7.0,0.0,0.0,0.0);
+  humanoid.push_back(torso3);
 
 
 
@@ -1239,55 +1473,63 @@ void initBuffersGL(void)
 
   
 
-// //---------------------------------------------------- dog  -----------------------------------------------------------
+//---------------------------------------------------- dog  -----------------------------------------------------------
 
-//   int dogtrunksize = get_ellipse_size(15,8,6);
-//   ellipse(15,8,6,dogtrunkpos);
-//   same_colors(0.7,0.7,0.5,dogtrunksize,dogtrunkcol);
-//   dogtrunk = new csX75::HNode(NULL,dogtrunksize,dogtrunkpos,dogtrunkcol,sizeof(dogtrunkpos),sizeof(dogtrunkcol));
-//   dogtrunk->change_parameters(1.5*length,0.0,0.0,0.0,-90.0,0.0);
+  int dogtrunksize = get_ellipse_size(15,8,6);
+  ellipse(15,8,6,dogtrunkpos);
+  same_colors(0.7,0.7,0.5,dogtrunksize,dogtrunkcol);
+  dogtrunk = new csX75::HNode(NULL,dogtrunksize,dogtrunkpos,dogtrunkcol,sizeof(dogtrunkpos),sizeof(dogtrunkcol));
+  dogtrunk->change_parameters(1.5*length,0.0,0.0,0.0,-90.0,0.0);
+  dog.push_back(dogtrunk);
+  
+  int dognecksize = get_frustom_size(4,1.6,0.8);
+  frustom(4,1.6,0.8,dogneckpos);
+  same_colors(0.7,0.7,0.7,dognecksize,dogneckcol);
+  dogneck = new csX75::HNode(dogtrunk,dognecksize,dogneckpos,dogneckcol,sizeof(dogneckpos),sizeof(dogneckcol));
+  dogneck->change_parameters(0.0,1.6,1.6,42.0,180.0,0.0);
+  dog.push_back(dogtrunk);
 
-//   int dognecksize = get_frustom_size(4,1.6,0.8);
-//   frustom(4,1.6,0.8,dogneckpos);
-//   same_colors(0.7,0.7,0.7,dognecksize,dogneckcol);
-//   dogneck = new csX75::HNode(dogtrunk,dognecksize,dogneckpos,dogneckcol,sizeof(dogneckpos),sizeof(dogneckcol));
-//   dogneck->change_parameters(0.0,1.6,1.6,42.0,180.0,0.0);
+  int dogheadsize = get_ellipse_size(5,3,2);
+  ellipse(5,3,2,dogheadpos);
+  same_colors(0.5,0.5,0.5,dogheadsize,dogheadcol);
+  doghead = new csX75::HNode(dogneck,dogheadsize,dogheadpos,dogheadcol,sizeof(dogheadpos),sizeof(dogheadcol));
+  doghead->change_parameters(0,-4,4,-90,0,0);
+  dog.push_back(dogtrunk);
 
-//   int dogheadsize = get_ellipse_size(5,3,2);
-//   ellipse(5,3,2,dogheadpos);
-//   same_colors(0.5,0.5,0.5,dogheadsize,dogheadcol);
-//   doghead = new csX75::HNode(dogneck,dogheadsize,dogheadpos,dogheadcol,sizeof(dogheadpos),sizeof(dogheadcol));
-//   doghead->change_parameters(0,-4,4,-90,0,0);
+  int dogarm1size = get_frustom_size(6,1,0.5);
+  frustom(6,1,0.5,dogarm1pos);
+  same_colors(0.3,0.3,0.5,dogarm1size,dogarm1col);
+  dogarm1 = new csX75::HNode(dogtrunk,dogarm1size,dogarm1pos,dogarm1col,sizeof(dogarm1pos),sizeof(dogarm1col));
+  dogarm1->change_parameters(-2,-2.5,4,90,0,0);
+  dog.push_back(dogtrunk);
 
-//   int dogarm1size = get_frustom_size(6,1,0.5);
-//   frustom(6,1,0.5,dogarm1pos);
-//   same_colors(0.3,0.3,0.5,dogarm1size,dogarm1col);
-//   dogarm1 = new csX75::HNode(dogtrunk,dogarm1size,dogarm1pos,dogarm1col,sizeof(dogarm1pos),sizeof(dogarm1col));
-//   dogarm1->change_parameters(-2,-2.5,4,90,0,0);
+  int dogarm2size = get_frustom_size(6,1,0.5);
+  frustom(6,1,0.5,dogarm2pos);
+  same_colors(0.3,0.3,0.5,dogarm2size,dogarm2col);
+  dogarm2 = new csX75::HNode(dogtrunk,dogarm2size,dogarm2pos,dogarm2col,sizeof(dogarm2pos),sizeof(dogarm2col));
+  dogarm2->change_parameters(2,-2.5,4,90,0,0);
+  dog.push_back(dogtrunk);
 
-//   int dogarm2size = get_frustom_size(6,1,0.5);
-//   frustom(6,1,0.5,dogarm2pos);
-//   same_colors(0.3,0.3,0.5,dogarm2size,dogarm2col);
-//   dogarm2 = new csX75::HNode(dogtrunk,dogarm2size,dogarm2pos,dogarm2col,sizeof(dogarm2pos),sizeof(dogarm2col));
-//   dogarm2->change_parameters(2,-2.5,4,90,0,0);
+  int dogarm3size = get_frustom_size(6,1,0.5);
+  frustom(6,1,0.5,dogarm3pos);
+  same_colors(0.3,0.3,0.5,dogarm3size,dogarm3col);
+  dogarm3 = new csX75::HNode(dogtrunk,dogarm3size,dogarm3pos,dogarm3col,sizeof(dogarm3pos),sizeof(dogarm3col));
+  dogarm3->change_parameters(-2,-2.5,11,90,0,0);
+  dog.push_back(dogtrunk);
 
-//   int dogarm3size = get_frustom_size(6,1,0.5);
-//   frustom(6,1,0.5,dogarm3pos);
-//   same_colors(0.3,0.3,0.5,dogarm3size,dogarm3col);
-//   dogarm3 = new csX75::HNode(dogtrunk,dogarm3size,dogarm3pos,dogarm3col,sizeof(dogarm3pos),sizeof(dogarm3col));
-//   dogarm3->change_parameters(-2,-2.5,11,90,0,0);
+  int dogarm4size = get_frustom_size(6,1,0.5);
+  frustom(6,1,0.5,dogarm4pos);
+  same_colors(0.3,0.3,0.5,dogarm4size,dogarm4col);
+  dogarm4 = new csX75::HNode(dogtrunk,dogarm4size,dogarm4pos,dogarm4col,sizeof(dogarm4pos),sizeof(dogarm4col));
+  dogarm4->change_parameters(2,-2.5,11,90,0,0);
+  dog.push_back(dogtrunk);
 
-//   int dogarm4size = get_frustom_size(6,1,0.5);
-//   frustom(6,1,0.5,dogarm4pos);
-//   same_colors(0.3,0.3,0.5,dogarm4size,dogarm4col);
-//   dogarm4 = new csX75::HNode(dogtrunk,dogarm4size,dogarm4pos,dogarm4col,sizeof(dogarm4pos),sizeof(dogarm4col));
-//   dogarm4->change_parameters(2,-2.5,11,90,0,0);
-
-//   int dogtailsize = get_frustom_size(10,0.5,0.1);
-//   frustom(10,0.5,0.1,dogtailpos);
-//   same_colors(0.3,0.3,0.3,dogtailsize,dogtailcol);
-//   dogtail = new csX75::HNode(dogtrunk,dogtailsize,dogtailpos,dogtailcol,sizeof(dogtailpos),sizeof(dogtailcol));
-//   dogtail->change_parameters(0,1.5,13.5,-40,0,0);
+  int dogtailsize = get_frustom_size(10,0.5,0.1);
+  frustom(10,0.5,0.1,dogtailpos);
+  same_colors(0.3,0.3,0.3,dogtailsize,dogtailcol);
+  dogtail = new csX75::HNode(dogtrunk,dogtailsize,dogtailpos,dogtailcol,sizeof(dogtailpos),sizeof(dogtailcol));
+  dogtail->change_parameters(0,1.5,13.5,-40,0,0);
+  dog.push_back(dogtrunk);
 
   //-----------------------------------------------------------------------------------------------------------
   root_node = curr_node = roombox;
@@ -1306,20 +1548,20 @@ void renderGL(void)
   c_rotation_matrix = glm::rotate(c_rotation_matrix, glm::radians(c_zrot), glm::vec3(0.0f,0.0f,1.0f));
 
   glm::vec4 c_pos = glm::vec4(c_xpos,c_ypos,c_zpos, 1.0)*c_rotation_matrix;
-  glm::vec4 c_up = glm::vec4(c_up_x,c_up_y,c_up_z, 1.0)*c_rotation_matrix;
+  glm::vec4 c_up = glm::vec4(c_up_x,c_up_y,c_up_z, 1.0);
   //Creating the lookat matrix
   lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(roomlength/2.0,roomheight/2.0,roomdepth/2.0),glm::vec3(c_up));
 
   //creating the projection matrix
   if(enable_perspective)
-    projection_matrix = glm::frustum(-1.0, 1.0, -1.0, 1.0, 1.0, 70000.0);
+    projection_matrix = glm::frustum(-1.0, 1.0, -1.0, 1.0, 1.0, 7000.0);
     //projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.1,5.0);
   else
     projection_matrix = glm::ortho(-wsize*4, wsize*4, -wsize*4, 5*wsize, 4*wsize, -wsize*4);
 
-  glm::mat4 id = glm::mat4(1.0f);
-  glm::vec3 translation_amt(g_xtrans*trans_factor,g_ytrans*trans_factor,g_ztrans*trans_factor);
-  c_translation_matrix = glm::translate(id, translation_amt);
+  // glm::mat4 id = glm::mat4(1.0f);
+  // glm::vec3 translation_amt(g_xtrans*trans_factor,g_ytrans*trans_factor,g_ztrans*trans_factor);
+  // c_translation_matrix = glm::translate(id, translation_amt);
 
   // view_matrix = projection_matrix*lookat_matrix*c_rotation_matrix*c_translation_matrix;
   view_matrix = projection_matrix*lookat_matrix;
@@ -1332,6 +1574,7 @@ void renderGL(void)
   // dogtrunk->render_tree();
 
   roombox->render_tree();
+  // cupboard->render_tree();
 
 }
 
@@ -1397,6 +1640,17 @@ int main(int argc, char** argv)
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {
+
+      if(playback && glfwGetTime()>num_frames*timer){
+        // std::cout<<fps<<std::endl;
+        // std::cout<<glfwGetTime()<<std::endl;
+        applyFrame(num_frames);
+        // Uncomment to get frames
+        // capture_frame(num_frames);
+        num_frames++;
+        if(num_frames == allframes.size())
+            playback = 0;
+      }
        
       // Render here
       renderGL();
