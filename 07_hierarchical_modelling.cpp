@@ -1052,153 +1052,153 @@ void same_colors(float a,float b, float c,int n,glm::vec4 vcol[]){
 
 // Frame start 
 
-std::string itos(int k) {
-  return std::to_string(k) + " ";
-}
+// std::string itos(int k) {
+//   return std::to_string(k) + " ";
+// }
 
-std::string itos(double k) {
-  return std::to_string(k) + " ";
-}
+// std::string itos(double k) {
+//   return std::to_string(k) + " ";
+// }
 
-std::string itos(bool k) {
-  return std::to_string(k) + " ";
-}
+// std::string itos(bool k) {
+//   return std::to_string(k) + " ";
+// }
 
-double stodb(std::string s) {
-  return std::stod(s);
-}
+// double stodb(std::string s) {
+//   return std::stod(s);
+// }
 
-void saveFrame() {
-  std::ofstream frame_records;
-  frame_records.open("keyframes.txt", std::ios::app);
-  frame_records << itos(lighton1) + itos(lighton2);
+// void saveFrame() {
+//   std::ofstream frame_records;
+//   frame_records.open("keyframes.txt", std::ios::app);
+//   frame_records << itos(lighton1) + itos(lighton2);
 
-  for(auto k: humanoid) {
-    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
-  }
+//   for(auto k: humanoid) {
+//     frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+//   }
 
-  for(auto k: dog) {
-    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
-  }
+//   for(auto k: dog) {
+//     frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+//   }
 
-  frame_records << "\n";
+//   frame_records << "\n";
 
-  frame_records.close();
-}
-
-
-void applyFrame(int kf_num) {
-  std::vector<double> frame = allframes[kf_num];
-  int j = 0;
-  lighton1 = frame[j++] > 0.5 ? 1 : 0;
-  lighton2 = frame[j++] > 0.5 ? 1 : 0;
-
-  for(auto k: humanoid) {
-    k->tx = frame[j++];
-    k->ty = frame[j++];
-    k->tz = frame[j++];
-    k->rx = frame[j++];
-    k->ry = frame[j++];
-    k->rz = frame[j++];
-    k->update_matrices();
-  }
-
-  for(auto k: dog) {
-    k->tx = frame[j++];
-    k->ty = frame[j++];
-    k->tz = frame[j++];
-    k->rx = frame[j++];
-    k->ry = frame[j++];
-    k->rz = frame[j++];
-    k->update_matrices();
-  }
-
-}
-
-std::vector<std::vector<double> > interpolate_two_frames(int t){
-  std::vector<std::vector<double> > i_frames;
-
-  for(int k = 0; k < 3; k++) {
-    for(int i=0;i<24;i++){
-      std::vector<double> frame;
-      for(int j=0;j<keyframes[t].size() - 6;j++){
-        frame.push_back((keyframes[t+k][j]*(24-i)+keyframes[t+k+1][j]*i)/24);
-      }
-      for(int j = keyframes[t].size() - 6; j < keyframes[t].size(); j++) {
-
-        double t1 = ((72-(i + k*24))/72.0);
-        double t2 = (i+k*24)/72.0;
-        if(keyframes[t][j] == keyframes[t+1][j] && keyframes[t+1][j] == keyframes[t+2][j] && keyframes[t+2][j] == keyframes[t+3][j])
-          frame.push_back(keyframes[t][j]);
-        else
-        frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
-      }
-      i_frames.push_back(frame);
-      frame.clear();
-    }
-  }
-
-  return i_frames;
-}
-
-void interpolate_all_frames(){
-  for(int i=0;i<keyframes.size()-3;i+=3){
-    std::vector<std::vector<double> > frames = interpolate_two_frames(i);
-    allframes.insert(allframes.end(),frames.begin(),frames.end());
-  }
-  allframes.push_back(keyframes[keyframes.size()-1]);
-}
-
-std::vector<double> parse_frame(std::string s) {
-  std::vector<double> frame;
-  std::istringstream is(s);
-  std::string part;
-  while(getline(is, part, ' ')) {
-    frame.push_back(stodb(part));
-  }
-  return frame;
-}
-
-void read_keyframes() {
-  std::string frame;
-  std::ifstream frame_records("keyframes.txt");
-  if(frame_records.is_open()) {
-    while(getline(frame_records, frame)) {
-      keyframes.push_back(parse_frame(frame));
-    }
-    frame_records.close();
-    interpolate_all_frames();
-  }
-  else {
-    playback = 0;
-    std::cout << "Unable to open keyframes.txt file";
-  }
-}
-
-void capture_frame(unsigned int framenum)
-{
-  //global pointer float *pRGB
-  pRGB = new unsigned char [3 * (1024+1) * (1024 + 1) ];
+//   frame_records.close();
+// }
 
 
-  // set the framebuffer to read
-  //default for double buffered
-  glReadBuffer(GL_BACK);
+// void applyFrame(int kf_num) {
+//   std::vector<double> frame = allframes[kf_num];
+//   int j = 0;
+//   lighton1 = frame[j++] > 0.5 ? 1 : 0;
+//   lighton2 = frame[j++] > 0.5 ? 1 : 0;
 
-  glPixelStoref(GL_PACK_ALIGNMENT,1);//for word allignment
+//   for(auto k: humanoid) {
+//     k->tx = frame[j++];
+//     k->ty = frame[j++];
+//     k->tz = frame[j++];
+//     k->rx = frame[j++];
+//     k->ry = frame[j++];
+//     k->rz = frame[j++];
+//     k->update_matrices();
+//   }
 
-  glReadPixels(0, 0, 1024, 1024, GL_RGB, GL_UNSIGNED_BYTE, pRGB);
-  char filename[200];
-  sprintf(filename,"frame_%04d.ppm",framenum);
-  std::ofstream out(filename, std::ios::out);
-  out<<"P6"<<std::endl;
-  out<<1024<<" "<<1024<<" 255"<<std::endl;
-  out.write(reinterpret_cast<char const *>(pRGB), (3 * (1024+1) * (1024 + 1)) * sizeof(int));
-  out.close();
+//   for(auto k: dog) {
+//     k->tx = frame[j++];
+//     k->ty = frame[j++];
+//     k->tz = frame[j++];
+//     k->rx = frame[j++];
+//     k->ry = frame[j++];
+//     k->rz = frame[j++];
+//     k->update_matrices();
+//   }
 
-  //function to store pRGB in a file named count
-  delete pRGB;
-}
+// }
+
+// std::vector<std::vector<double> > interpolate_two_frames(int t){
+//   std::vector<std::vector<double> > i_frames;
+
+//   for(int k = 0; k < 3; k++) {
+//     for(int i=0;i<24;i++){
+//       std::vector<double> frame;
+//       for(int j=0;j<keyframes[t].size() - 6;j++){
+//         frame.push_back((keyframes[t+k][j]*(24-i)+keyframes[t+k+1][j]*i)/24);
+//       }
+//       for(int j = keyframes[t].size() - 6; j < keyframes[t].size(); j++) {
+
+//         double t1 = ((72-(i + k*24))/72.0);
+//         double t2 = (i+k*24)/72.0;
+//         if(keyframes[t][j] == keyframes[t+1][j] && keyframes[t+1][j] == keyframes[t+2][j] && keyframes[t+2][j] == keyframes[t+3][j])
+//           frame.push_back(keyframes[t][j]);
+//         else
+//         frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
+//       }
+//       i_frames.push_back(frame);
+//       frame.clear();
+//     }
+//   }
+
+//   return i_frames;
+// }
+
+// void interpolate_all_frames(){
+//   for(int i=0;i<keyframes.size()-3;i+=3){
+//     std::vector<std::vector<double> > frames = interpolate_two_frames(i);
+//     allframes.insert(allframes.end(),frames.begin(),frames.end());
+//   }
+//   allframes.push_back(keyframes[keyframes.size()-1]);
+// }
+
+// std::vector<double> parse_frame(std::string s) {
+//   std::vector<double> frame;
+//   std::istringstream is(s);
+//   std::string part;
+//   while(getline(is, part, ' ')) {
+//     frame.push_back(stodb(part));
+//   }
+//   return frame;
+// }
+
+// void read_keyframes() {
+//   std::string frame;
+//   std::ifstream frame_records("keyframes.txt");
+//   if(frame_records.is_open()) {
+//     while(getline(frame_records, frame)) {
+//       keyframes.push_back(parse_frame(frame));
+//     }
+//     frame_records.close();
+//     interpolate_all_frames();
+//   }
+//   else {
+//     playback = 0;
+//     std::cout << "Unable to open keyframes.txt file";
+//   }
+// }
+
+// void capture_frame(unsigned int framenum)
+// {
+//   //global pointer float *pRGB
+//   pRGB = new unsigned char [3 * (1024+1) * (1024 + 1) ];
+
+
+//   // set the framebuffer to read
+//   //default for double buffered
+//   glReadBuffer(GL_BACK);
+
+//   glPixelStoref(GL_PACK_ALIGNMENT,1);//for word allignment
+
+//   glReadPixels(0, 0, 1024, 1024, GL_RGB, GL_UNSIGNED_BYTE, pRGB);
+//   char filename[200];
+//   sprintf(filename,"frame_%04d.ppm",framenum);
+//   std::ofstream out(filename, std::ios::out);
+//   out<<"P6"<<std::endl;
+//   out<<1024<<" "<<1024<<" 255"<<std::endl;
+//   out.write(reinterpret_cast<char const *>(pRGB), (3 * (1024+1) * (1024 + 1)) * sizeof(int));
+//   out.close();
+
+//   //function to store pRGB in a file named count
+//   delete pRGB;
+// }
 
 
 // Frame end
@@ -1812,16 +1812,16 @@ int main(int argc, char** argv)
   while (glfwWindowShouldClose(window) == 0)
     {
 
-      if(playback && glfwGetTime()>num_frames*timer){
-        // std::cout<<fps<<std::endl;
-        // std::cout<<glfwGetTime()<<std::endl;
-        applyFrame(num_frames);
-        // Uncomment to get frames
-        // capture_frame(num_frames);
-        num_frames++;
-        if(num_frames == allframes.size())
-            playback = 0;
-      }
+      // if(playback && glfwGetTime()>num_frames*timer){
+      //   // std::cout<<fps<<std::endl;
+      //   // std::cout<<glfwGetTime()<<std::endl;
+      //   applyFrame(num_frames);
+      //   // Uncomment to get frames
+      //   // capture_frame(num_frames);
+      //   num_frames++;
+      //   if(num_frames == allframes.size())
+      //       playback = 0;
+      // }
        
       // Render here
       renderGL();

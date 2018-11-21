@@ -170,8 +170,8 @@ void closebox(void){
     //   closebox();
     else if (key == GLFW_KEY_P && action == GLFW_PRESS)
       enable_perspective = !enable_perspective;   
-    else if (key == GLFW_KEY_RIGHT_ALT && action == GLFW_PRESS)
-      saveFrame();   
+    // else if (key == GLFW_KEY_RIGHT_ALT && action == GLFW_PRESS)
+      // saveFrame();   
     else if (key == GLFW_KEY_A  && action == GLFW_PRESS)
       c_yrot -= 5.0;
     else if (key == GLFW_KEY_D  && action == GLFW_PRESS)
