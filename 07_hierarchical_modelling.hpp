@@ -32,7 +32,7 @@ GLfloat xpos=0.0,ypos=0.0,zpos=0.0;
 // Rotation Parameters
 GLfloat xrot=0.0,yrot=0.0,zrot=0.0;*/
 // Camera position and rotation Parameters
-GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 2.0;
+GLfloat c_xpos = 1000.0/2, c_ypos = 220.0, c_zpos = 1000.0/3;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 

@@ -187,19 +187,19 @@ void closebox(void){
 
 
     else if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
-      wsize = wsize - 2;
+      wsize = wsize - 20;
     else if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS)
-      wsize = wsize + 2;
+      wsize = wsize + 20;
     else if (key == GLFW_KEY_KP_1 && action == GLFW_PRESS)
-      c_xpos += 2;      
+      {c_xpos += 20;      std::cout<<c_xpos<< " " << c_ypos << " "<<c_zpos<<'\n';}
     else if (key == GLFW_KEY_KP_3 && action == GLFW_PRESS)
-      c_xpos -= 2;    
+      {c_xpos -= 20;         std::cout<<c_xpos<< " " << c_ypos << " "<<c_zpos<<'\n';}
     else if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS)
-      c_ypos+= 2;    
+      {c_ypos+= 20;         std::cout<<c_xpos<< " " << c_ypos << " "<<c_zpos<<'\n';}
     else if (key == GLFW_KEY_KP_6 && action == GLFW_PRESS)
-      c_ypos-= 2;    
+      {c_ypos-= 20;         std::cout<<c_xpos<< " " << c_ypos << " "<<c_zpos<<'\n';}
     else if (key == GLFW_KEY_KP_7 && action == GLFW_PRESS)
-      c_zpos+= 2;    
+      {c_zpos+= 20;         std::cout<<c_xpos<< " " << c_ypos << " "<<c_zpos<<'\n';}
     else if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS)
       c_zpos-= 2;    
    
