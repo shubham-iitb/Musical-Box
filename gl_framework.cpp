@@ -71,17 +71,17 @@ void closebox(void){
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
 
-    // else if (key == GLFW_KEY_3 && action == GLFW_PRESS)   // to control the humanoid model
-    //   curr_node = torso3; 
-    // else if (key == GLFW_KEY_4 && action == GLFW_PRESS)   // to control the animal model
-    //   curr_node = dogtrunk; 
-    // else if (key == GLFW_KEY_5 && action == GLFW_PRESS)   // to control the animal model
-    //   umbrellabutton();
+    else if (key == GLFW_KEY_F3 && action == GLFW_PRESS)   // to control the humanoid model
+      curr_node = torso3; 
+    else if (key == GLFW_KEY_F4 && action == GLFW_PRESS)   // to control the animal model
+      curr_node = dogtrunk; 
+    else if (key == GLFW_KEY_F5 && action == GLFW_PRESS)   // to control the animal model
+      umbrellabutton();
 
     else if (key == GLFW_KEY_H && action == GLFW_PRESS)
       curr_node = torso2;  
 
-    else if (key == GLFW_KEY_7 && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_F7 && action == GLFW_PRESS)
       curr_node = neck;  
 
     else if (key == GLFW_KEY_Y && action == GLFW_PRESS)
@@ -123,7 +123,7 @@ void closebox(void){
     else if (key == GLFW_KEY_SEMICOLON && action == GLFW_PRESS)
       curr_node = dogarm4;      
 
-    else if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_F2 && action == GLFW_PRESS)
       curr_node = lowerbox; 
     else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS){
       if(curr_node==elbowl || curr_node==elbowr || curr_node==kneel || curr_node==kneer){
@@ -183,7 +183,9 @@ void closebox(void){
     else if (key == GLFW_KEY_Q  && action == GLFW_PRESS)
       c_zrot -= 5.0;
     else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
-      c_zrot += 5.0;   
+      c_zrot += 5.0; 
+
+
     else if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
       wsize = wsize - 2;
     else if (key == GLFW_KEY_RIGHT_SHIFT && action == GLFW_PRESS)
@@ -200,14 +202,7 @@ void closebox(void){
       c_zpos+= 2;    
     else if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS)
       c_zpos-= 2;    
-    else if (key == GLFW_KEY_KP_0 && action == GLFW_PRESS)
-      c_xrot+= 5;    
-    else if (key == GLFW_KEY_KP_2 && action == GLFW_PRESS)
-      c_xrot-= 5;    
-    else if (key == GLFW_KEY_KP_5 && action == GLFW_PRESS)
-      c_yrot+= 5;    
-    else if (key == GLFW_KEY_KP_8 && action == GLFW_PRESS)
-      c_yrot-= 5;    
+   
       
             
   }

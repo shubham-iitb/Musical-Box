@@ -555,11 +555,11 @@ void room(void)
   room_quad_box(8,10,12,14);
 
   room_quad_box(0,16,4,18);
-  room_quad_box(4,18,19,5);
+  room_quad_box(18,4,19,5);
   room_quad_box(19,5,17,1);
 
   room_quad_box(8,20,12,22);  
-  room_quad_box(12,22,23,13);
+  room_quad_box(22,12,23,13);
   room_quad_box(23,13,21,9);
 
   room_quad_box(16,20,18,22);
@@ -1703,7 +1703,7 @@ void initBuffersGL(void)
   dog.push_back(dogtail);
 
   //-----------------------------------------------------------------------------------------------------------
-  root_node = curr_node = tabletop;
+  root_node = curr_node = roombox;
 
 }
 
@@ -1740,12 +1740,15 @@ void renderGL(void)
   matrixStack.push_back(view_matrix);
 
 
+  roombox->render_tree();
   // lowerbox->render_tree();
   // torso3->render_tree();
   // dogtrunk->render_tree();
 
-  tabletop->render_tree();
+  // //dogtrunk->render_tree();
   // cupboard->render_tree();
+  // stooltop->render_tree();
+
 
 }
 
